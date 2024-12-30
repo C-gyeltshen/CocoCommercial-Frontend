@@ -1,176 +1,401 @@
-import React from "react";
+"use client";
+
+import React, { useState, useEffect } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { Menu, X } from "lucide-react";
 import Image from "next/image";
 
 const CocoCommercial = () => {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [activeCircle, setActiveCircle] = useState(0);
+  const [showLogoOnScroll, setShowLogoOnScroll] = useState(false);
+
+  const circleContents = [
+    {
+      title: "Bhutanese Entrepreneurs",
+      subtitle: "Hospitality and Tourism",
+      description:
+        "Small business owners selling handicrafts, textiles products.",
+      image: "/1.png",
+    },
+    {
+      title: "Agriculture and Livestock Providers",
+      subtitle: "Primary Sector",
+      description:
+        "Organic farmers, Dairy producers, Poultry and meat processing",
+      image: "/2.png",
+    },
+    {
+      title: "Wholesale Trade",
+      subtitle: "Retail Sector",
+      description:
+        "Grocery stores, general shops Electronics, appliance stores, Stationery and bookshops",
+      image: "/3.png",
+    },
+    {
+      title: "Hospitality and Tourism",
+      subtitle: "Service Sector",
+      description:
+        "Cafes, restaurants, local eateries, Food and beverage production",
+      image: "/4.png",
+    },
+  ];
+
+  const objectives = [
+    {
+      title: "Empower Local Businesses",
+      image: "/ob1.png",
+      alt: "Empowering local businesses illustration",
+    },
+    {
+      title: "Bridging the Gap in Digital Adoption",
+      image: "/ob2.png",
+      alt: "Digital adoption bridge illustration",
+    },
+    {
+      title: "Affordable E-commerce",
+      image: "/ob3.png",
+      alt: "Affordable e-commerce illustration",
+    },
+  ];
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 50) {
+        setShowLogoOnScroll(true);
+      } else {
+        setShowLogoOnScroll(false);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   return (
-    <div className="max-w-7xl mx-auto">
+    <div className="w-full mx-auto font-sans text-[#2C3E50]">
       {/* Navigation Bar */}
-      <nav className="bg-[#567B9C] py-2">
-        <div className="max-w-7xl mx-auto px-4 flex items-center justify-between">
-          <div className="flex items-center">
-            <Image
-              src="/logo.png"
-              alt="Coco Commercial Logo"
-              width={50}
-              height={50}
-              className="mr-8"
-            />
-            <div className="flex items-center space-x-12">
-              <a href="#" className="text-white hover:text-gray-200 text-lg">
-                Home
+      <nav className="sticky top-0 z-50 bg-[#1B4965] shadow-md transition-all duration-300">
+        <div className="container mx-auto px-6">
+          <div className="flex items-center justify-between h-16">
+            {/* Logo and brand */}
+            <div className="flex items-center">
+              <div
+                className={`transform transition-all duration-500 ease-in-out ${
+                  showLogoOnScroll
+                    ? "opacity-100 translate-y-0"
+                    : "opacity-0 -translate-y-4"
+                }`}
+              >
+                <Image
+                  src="/cocologo.png"
+                  alt="Coco Commercial Logo"
+                  width={50}
+                  height={50}
+                  className="sm:mr-8"
+                />
+              </div>
+              {/* Desktop Navigation */}
+              <div className="hidden md:flex items-center space-x-8">
+                <a
+                  href="#"
+                  className="text-white px-6 py-2 rounded-md transition-all duration-300 hover:bg-orange-400"
+                >
+                  Home
+                </a>
+                <a
+                  href="#about"
+                  className="text-white px-6 py-2 rounded-md transition-all duration-300 hover:bg-orange-400"
+                >
+                  About Us
+                </a>
+                <a
+                  href="#contact"
+                  className="text-white px-6 py-2 rounded-md transition-all duration-300 hover:bg-orange-400"
+                >
+                  Contact Us
+                </a>
+              </div>
+            </div>
+
+            {/* Desktop buttons */}
+            <div className="hidden md:flex items-center space-x-4">
+              <a
+                href="/login"
+                className="text-white px-6 py-2 rounded-md transition-all duration-300 hover:bg-orange-400"
+              >
+                Login
               </a>
               <a
-                href="#about"
-                className="text-white hover:text-gray-200 text-lg"
+                href="/signup"
+                className="bg-orange-400 hover:bg-orange-500 text-white px-6 py-2 rounded-full font-medium transition-all duration-300 transform hover:scale-105 hover:animate-bounce"
               >
-                About Us
-              </a>
-              <a
-                href="#contact"
-                className="text-white hover:text-gray-200 text-lg"
-              >
-                Contact Us
+                Sign up
               </a>
             </div>
+
+            {/* Mobile menu button */}
+            <div className="md:hidden">
+              <button
+                onClick={() => setIsMenuOpen(!isMenuOpen)}
+                className="text-white p-2"
+              >
+                {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
+              </button>
+            </div>
           </div>
-          <div className="flex items-center space-x-4">
-            <Button
-              variant="outline"
-              className="text-white hover:text-gray-200 text-lg"
-            >
-              Login
-            </Button>
-            <Button
-              variant="default"
-              className="bg-[#FF9B50] text-white hover:bg-[#FF8730] text-lg px-8"
-            >
-              Sign up
-            </Button>
-          </div>
+
+          {/* Mobile Navigation */}
+          {isMenuOpen && (
+            <div className="md:hidden pb-4">
+              <div className="flex flex-col space-y-4">
+                <a
+                  href="#"
+                  className="text-white px-6 py-2 transition-all duration-300 hover:bg-orange-400"
+                >
+                  Home
+                </a>
+                <a
+                  href="#about"
+                  className="text-white px-6 py-2 transition-all duration-300 hover:bg-orange-400"
+                >
+                  About Us
+                </a>
+                <a
+                  href="#contact"
+                  className="text-white px-6 py-2 transition-all duration-300 hover:bg-orange-400"
+                >
+                  Contact Us
+                </a>
+                <a
+                  href="/login"
+                  className="text-white px-6 py-2 transition-all duration-300 hover:bg-orange-400"
+                >
+                  Login
+                </a>
+                <a
+                  href="/signup"
+                  className="bg-orange-400 hover:bg-orange-500 text-white px-6 py-2 rounded-full font-medium transition-all duration-300 transform hover:scale-105 hover:animate-bounce text-center"
+                >
+                  Sign up
+                </a>
+              </div>
+            </div>
+          )}
         </div>
       </nav>
 
-      {/* Hero Section */}
-      <div className="max-w-4xl mx-auto px-4 py-12 text-center">
-        <div className="mb-8">
-          <Image
-            src="/logo.png"
-            alt="Coco Commercial Logo"
-            width={80}
-            height={80}
-            className="mx-auto mb-6"
-          />
-          <h1 className="text-3xl font-semibold text-[#2B4C7E] mb-4">
-            Coco Commercial
-          </h1>
-          <p className="text-gray-600 italic">
-            "Where happiness meets business" - it's memorable, wonderful, and
-            perfectly captures both the platform's Bhutanese identity through
-            its CSR initiatives and its commercial purpose.
-          </p>
-          <Button variant="outline" className="mt-6 rounded-full">
-            Get Started
-          </Button>
-        </div>
-
-        {/* About Us Section */}
-        <section id="about" className="mb-16">
-          <h2 className="text-2xl font-semibold mb-8 text-[#2B4C7E]">
-            About Us
-          </h2>
-          <h3 className="text-lg mb-4">Objectives</h3>
-          <p className="text-gray-600 mb-8">
-            "Connecting Bhutanese Businesses to Broader Markets"
-          </p>
-          <p className="text-gray-600 mb-12">
-            Coco Commercial is dedicated to transforming the digital landscape
-            for Bhutanese businesses by:
-          </p>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {[
-              "Empower Local Businesses",
-              "Bridging the Gap in Digital Adoption",
-              "Affordable E-commerce",
-            ].map((text, idx) => (
-              <Card key={idx} className="text-center">
-                <CardContent className="pt-6">
-                  <div className="w-24 h-24 mx-auto mb-4 bg-gray-100 rounded-full" />
-                  <h4 className="font-medium text-[#2B4C7E]">{text}</h4>
-                </CardContent>
-              </Card>
-            ))}
+      {/* Main Content */}
+      <main className="container mx-auto px-6">
+        {/* Hero Section */}
+        <div className="py-8 sm:py-12 lg:py-16 text-center">
+          <div className="mb-8 sm:mb-12">
+            <Image
+              src="/logo.png"
+              alt="Coco Commercial Logo"
+              width={100}
+              height={100}
+              className="mx-auto mb-6 sm:mb-8"
+            />
+            <h1 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-normal text-primary mb-4 sm:mb-6">
+              Coco Commercial
+            </h1>
+            <p className="italic text-base sm:text-lg leading-relaxed max-w-xl mx-auto px-4">
+              "Where happiness meets business" - it's memorable, wonderful, and
+              perfectly captures both the platform's Bhutanese identity through
+              its CSR initiatives and its commercial purpose.
+            </p>
+            <Button
+              variant="outline"
+              className="mt-6 sm:mt-8 rounded-full px-6 sm:px-8"
+            >
+              Get Started
+            </Button>
           </div>
-        </section>
 
-        {/* Who We Serve Section */}
-        <section className="mb-16">
-          <h2 className="text-2xl font-semibold mb-8 text-[#2B4C7E]">
-            Who We Serve
-          </h2>
-          <p className="text-gray-600 mb-12">
-            Our platform is designed to support a diverse range of Bhutanese
-            businesses, including:
-          </p>
+          <section id="about" className="mb-16 sm:mb-20 lg:mb-24">
+            <h2 className="font-serif text-2xl sm:text-3xl font-normal mb-4 text-primary">
+              About Us
+            </h2>
+            <div className="w-24 h-0.5 bg-gray-300 mx-auto mb-6 sm:mb-8"></div>
+            <h3 className="text-lg sm:text-xl mb-4 font-serif">Objectives</h3>
+            <p className="mb-4 sm:mb-6">
+              "Connecting Bhutanese Businesses to Broader Markets"
+            </p>
+            <p className="mb-8 sm:mb-12">
+              Coco Commercial is dedicated to transforming the digital landscape
+              for Bhutanese businesses by:
+            </p>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <div className="grid grid-cols-2 gap-4">
-              {[1, 2, 3, 4].map((item) => (
-                <div
-                  key={item}
-                  className="w-full aspect-square bg-gray-100 rounded-full"
-                />
+            {/* Updated Cards Section with Better Image Fitting */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 sm:gap-10 lg:gap-12 px-4">
+              {objectives.map((objective, idx) => (
+                <Card
+                  key={idx}
+                  className="text-center overflow-hidden hover:shadow-xl transition-shadow"
+                >
+                  <CardContent className="p-8">
+                    <div className="relative w-48 h-48 mx-auto mb-6">
+                      <div className="absolute inset-0 flex items-center justify-center">
+                        <Image
+                          src={objective.image}
+                          alt={objective.alt}
+                          width={160}
+                          height={160}
+                          className="max-w-full max-h-full object-contain"
+                          style={{ background: "none" }}
+                        />
+                      </div>
+                    </div>
+                    <h4 className="font-serif text-lg sm:text-xl text-primary mt-4">
+                      {objective.title}
+                    </h4>
+                  </CardContent>
+                </Card>
               ))}
             </div>
-            <div className="flex items-center justify-center">
-              <div className="w-full aspect-square rounded-full overflow-hidden">
-                <img
-                  src="/bhutan-marketplace.jpg"
-                  alt="Bhutanese marketplace"
-                  className="w-full h-full object-cover"
-                />
+          </section>
+
+          {/* Who We Serve Section */}
+          <section className="mb-16 sm:mb-20 lg:mb-24">
+            <h2 className="font-serif text-2xl sm:text-3xl font-normal mb-4 text-primary">
+              Who We Serve
+            </h2>
+            <div className="w-24 h-0.5 bg-gray-300 mx-auto mb-6 sm:mb-8"></div>
+
+            <div className="flex flex-col items-center justify-center gap-8">
+              {/* Big Circle with Content */}
+              <div className="relative w-80 h-80 rounded-full overflow-hidden border-4 border-gray-300 bg-white shadow-lg">
+                <div className="absolute inset-0">
+                  <Image
+                    src={circleContents[activeCircle].image}
+                    alt={circleContents[activeCircle].title}
+                    layout="fill"
+                    objectFit="cover"
+                    className="rounded-full"
+                    priority
+                  />
+                </div>
+              </div>
+
+              {/* Description Section */}
+              <div className="text-center max-w-2xl mx-auto">
+                <h3 className="font-serif text-xl text-[#1B4965] mb-2">
+                  {circleContents[activeCircle].title}
+                </h3>
+                <h4 className="text-lg text-gray-700 mb-2">
+                  {circleContents[activeCircle].subtitle}
+                </h4>
+                <p className="text-gray-600 mb-6">
+                  {circleContents[activeCircle].description}
+                </p>
+              </div>
+
+              {/* Small Circles with Numbers */}
+              <div className="flex space-x-6">
+                {circleContents.map((_, index) => (
+                  <div
+                    key={index}
+                    onClick={() => setActiveCircle(index)}
+                    className={`w-12 h-12 rounded-full cursor-pointer border-2 transition-all flex items-center justify-center ${
+                      activeCircle === index
+                        ? "border-[#1B4965] bg-gray-100 scale-110"
+                        : "border-gray-300 bg-gray-200"
+                    }`}
+                  >
+                    <span
+                      className={`text-lg font-medium ${
+                        activeCircle === index
+                          ? "text-[#1B4965]"
+                          : "text-gray-600"
+                      }`}
+                    >
+                      {index + 1}
+                    </span>
+                  </div>
+                ))}
               </div>
             </div>
-          </div>
-        </section>
+          </section>
 
-        {/* Contact Form Section */}
-        <section id="contact" className="mb-16">
-          <h2 className="text-2xl font-semibold mb-8 text-[#2B4C7E]">
-            Contact Us
-          </h2>
-          <div className="max-w-lg mx-auto">
-            <form className="space-y-4">
-              <div>
-                <input
-                  type="text"
-                  placeholder="Name"
-                  className="w-full p-2 border rounded-md"
-                />
+          {/* Contact Form Section */}
+          <section id="contact" className="mb-16 sm:mb-20 lg:mb-24">
+            <h2 className="font-serif text-2xl sm:text-3xl font-normal mb-4 text-primary">
+              Contact Us
+            </h2>
+            <div className="w-24 h-0.5 bg-gray-300 mx-auto mb-6 sm:mb-8"></div>
+
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+              {/* Stay in Touch Section */}
+              <div className="text-center lg:text-left bg-gradient-to-r from-blue-100 to-blue-300 p-8 rounded-lg shadow-lg">
+                <h3 className="font-serif text-xl sm:text-2xl mb-4 text-primary">
+                  Stay in Touch!
+                </h3>
+                <p className="text-gray-600 mb-6">
+                  Follow us on our socials so you never miss out on the latest
+                  news and updates.
+                </p>
+                <div className="flex justify-center space-x-4">
+                  <a href="#" className="text-blue-600 hover:text-blue-800">
+                    <i className="fab fa-facebook-f text-2xl"></i>
+                  </a>
+                  <a href="#" className="text-blue-400 hover:text-blue-600">
+                    <i className="fab fa-twitter text-2xl"></i>
+                  </a>
+                  <a href="#" className="text-pink-500 hover:text-pink-700">
+                    <i className="fab fa-instagram text-2xl"></i>
+                  </a>
+                  <a href="#" className="text-blue-700 hover:text-blue-900">
+                    <i className="fab fa-linkedin-in text-2xl"></i>
+                  </a>
+                </div>
               </div>
-              <div>
-                <input
-                  type="email"
-                  placeholder="Email"
-                  className="w-full p-2 border rounded-md"
-                />
+
+              {/* Contact Form */}
+              <div className="p-8 bg-white rounded-lg shadow-lg">
+                <form className="space-y-6">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <input
+                      type="text"
+                      placeholder="First Name*"
+                      className="w-full p-3 border rounded-md focus:ring-2 focus:ring-primary focus:outline-none"
+                    />
+                    <input
+                      type="text"
+                      placeholder="Last Name*"
+                      className="w-full p-3 border rounded-md focus:ring-2 focus:ring-primary focus:outline-none"
+                    />
+                  </div>
+                  <input
+                    type="email"
+                    placeholder="Email*"
+                    className="w-full p-3 border rounded-md focus:ring-2 focus:ring-primary focus:outline-none"
+                  />
+                  <select className="w-full p-3 border rounded-md text-gray-600 focus:ring-2 focus:ring-primary focus:outline-none">
+                    <option value="">What is your inquiry related to?*</option>
+                    <option value="service">Services</option>
+                    <option value="support">Support</option>
+                    <option value="general">General Inquiry</option>
+                  </select>
+                  <textarea
+                    placeholder="Message*"
+                    rows={4}
+                    className="w-full p-3 border rounded-md focus:ring-2 focus:ring-primary focus:outline-none"
+                  />
+                  <Button
+                    variant="default"
+                    className="w-full bg-primary py-3 hover:bg-primary-dark hover:shadow-lg transition-all"
+                  >
+                    Submit
+                  </Button>
+                </form>
               </div>
-              <div>
-                <textarea
-                  placeholder="Your message"
-                  rows={4}
-                  className="w-full p-2 border rounded-md"
-                />
-              </div>
-              <Button variant="default" className="w-full bg-[#2B4C7E]">
-                Submit
-              </Button>
-            </form>
-          </div>
-        </section>
-      </div>
+            </div>
+          </section>
+        </div>
+      </main>
     </div>
   );
 };
