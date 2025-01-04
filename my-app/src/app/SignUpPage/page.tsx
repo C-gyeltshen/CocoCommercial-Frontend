@@ -1,13 +1,13 @@
 "use client";
 
 import React, { useState } from "react";
-import Slider from "react-slick"; // Import the react-slick component
+import Slider from "react-slick"; 
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Image from "next/image";
-import FileUpload from "../components/ui/FileUpload"; // Corrected relative path
+import FileUpload from "../components/ui/FileUpload"; 
 import { Menu, X } from "lucide-react";
-import Footer from "../reusable_component/Footer"; // Corrected relative path
+import Footer from "../reusable_component/Footer"; 
 
 const SignupPage: React.FC = () => {
   const [formData, setFormData] = useState({

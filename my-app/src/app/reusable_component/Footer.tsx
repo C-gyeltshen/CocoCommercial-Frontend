@@ -3,111 +3,56 @@ import { FaFacebook, FaTwitter, FaLinkedin } from "react-icons/fa";
 
 const Footer: React.FC = () => {
   return (
-    <footer style={styles.footer}>
-      <div style={styles.container}>
-        <div style={styles.about}>
-          <img src="/cocologo.png" alt="Logo" style={styles.logo} />
-          <h3 style={styles.heading}>About us:</h3>
-          <ul style={styles.list}>
+    <footer className="bg-gray-100 border-t border-gray-300 text-sm text-gray-700">
+      {/* Top Section */}
+      <div className="container mx-auto flex flex-wrap justify-between items-center py-6 px-4">
+        {/* About Section */}
+        <div className="flex-1 text-left mb-6 md:mb-0">
+          <img
+            src="/cocologo.png"
+            alt="Logo"
+            className="w-20 mb-4"
+          />
+          <h3 className="font-bold text-gray-800 mb-2">About us:</h3>
+          <ul className="list-none space-y-1 text-gray-600">
             <li>Objectives</li>
             <li>Who We Serve</li>
           </ul>
         </div>
-        <div style={styles.contact}>
-          <h3 style={styles.heading}>Contact:</h3>
-          <p style={styles.email}>Email: unknown@mail.com</p>
-          <div style={styles.icons}>
-            <FaFacebook style={styles.icon} />
-            <FaTwitter style={styles.icon} />
-            <FaLinkedin style={styles.icon} />
+
+        {/* Contact Section */}
+        <div className="flex-1 text-right">
+          <h3 className="font-bold text-gray-800 mb-2">Contact:</h3>
+          <p className="mb-2">Email: unknown@mail.com</p>
+          <div className="flex justify-end space-x-4 mt-4">
+            <FaFacebook className="text-blue-600 hover:text-blue-800 cursor-pointer" />
+            <FaTwitter className="text-blue-400 hover:text-blue-600 cursor-pointer" />
+            <FaLinkedin className="text-blue-700 hover:text-blue-900 cursor-pointer" />
           </div>
         </div>
       </div>
-      <div style={styles.bottom}>
-        <p style={styles.copyright}>© 2024 GakyidMarket. All rights reserved.</p>
-        <div style={styles.links}>
-          <a href="/privacy-policy" style={styles.link}>Privacy Policy</a> |
-          <a href="/terms-and-conditions" style={styles.link}>Terms & Conditions</a>
+
+      {/* Bottom Section */}
+      <div className="text-center border-t border-gray-300 py-4">
+        <p className="text-gray-600">© 2024 GakyidMarket. All rights reserved.</p>
+        <div className="space-x-2">
+          <a
+            href="/privacy-policy"
+            className="text-blue-500 hover:underline"
+          >
+            Privacy Policy
+          </a>
+          |
+          <a
+            href="/terms-and-conditions"
+            className="text-blue-500 hover:underline"
+          >
+            Terms & Conditions
+          </a>
         </div>
       </div>
     </footer>
   );
-};
-
-// Styles for the Footer Component
-const styles: Record<string, React.CSSProperties> = {
-  footer: {
-    background: "#f0f0f0",
-    padding: "20px 0",
-    borderTop: "1px solid #ccc",
-    fontFamily: "Arial, sans-serif",
-  },
-  container: {
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center",
-    maxWidth: "1200px",
-    margin: "0 auto",
-    padding: "0 20px",
-  },
-  about: {
-    flex: 1,
-    textAlign: "left",
-  },
-  contact: {
-    flex: 1,
-    textAlign: "right",
-  },
-  logo: {
-    maxWidth: "80px",
-    marginBottom: "10px",
-  },
-  heading: {
-    marginBottom: "10px",
-    fontSize: "16px",
-    fontWeight: "bold",
-  },
-  list: {
-    listStyle: "none",
-    padding: 0,
-    margin: 0,
-    fontSize: "14px",
-    color: "#333",
-  },
-  email: {
-    fontSize: "14px",
-    color: "#333",
-    marginBottom: "10px",
-  },
-  icons: {
-    display: "flex",
-    justifyContent: "flex-end",
-    gap: "10px",
-  },
-  icon: {
-    fontSize: "18px",
-    color: "#3b5998",
-    cursor: "pointer",
-  },
-  bottom: {
-    textAlign: "center",
-    marginTop: "20px",
-    borderTop: "1px solid #ccc",
-    paddingTop: "10px",
-  },
-  copyright: {
-    fontSize: "12px",
-    color: "#666",
-    marginBottom: "5px",
-  },
-  links: {
-    fontSize: "12px",
-  },
-  link: {
-    color: "#007bff",
-    textDecoration: "none",
-    margin: "0 5px",
-  },
 };
 
 export default Footer;

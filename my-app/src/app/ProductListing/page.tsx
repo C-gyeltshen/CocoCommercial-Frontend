@@ -1,4 +1,6 @@
-import React from "react";
+"use client";
+
+import React, { useState } from "react";
 
 const ProductListing: React.FC = () => {
   const products = [
@@ -30,7 +32,20 @@ const ProductListing: React.FC = () => {
       description: "Sample product description 4",
       quantity: 43,
     },
+    {
+      id: 5,
+      name: "Product 5",
+      price: "Nu.4000",
+      description: "Sample product description 4",
+      quantity: 43,
+    },
   ];
+
+  const [dropdownVisible, setDropdownVisible] = useState<number | null>(null);
+
+  const toggleDropdown = (id: number) => {
+    setDropdownVisible(dropdownVisible === id ? null : id);
+  };
 
   return (
     <div className="bg-[#eaf7f4] min-h-screen p-6">
@@ -54,12 +69,12 @@ const ProductListing: React.FC = () => {
       <table className="w-full border-collapse bg-white rounded-md shadow-md overflow-hidden">
         <thead className="bg-[#d9f2ee] text-left text-[#2a7566]">
           <tr>
-            <th className="px-4 py-2">ID</th>
+            <th className="px-4 py-2 text-center">ID</th>
             <th className="px-4 py-2">Product Name</th>
             <th className="px-4 py-2">Price</th>
             <th className="px-4 py-2">Description</th>
-            <th className="px-4 py-2">Quantity</th>
-            <th className="px-4 py-2"></th>
+            <th className="px-4 py-2 text-center">Quantity</th>
+            <th className="px-4 py-2 text-center">Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -74,10 +89,23 @@ const ProductListing: React.FC = () => {
               <td className="px-4 py-2">{product.price}</td>
               <td className="px-4 py-2">{product.description}</td>
               <td className="px-4 py-2 text-center">{product.quantity}</td>
-              <td className="px-4 py-2 text-center">
-                <button className="bg-[#2a7566] text-white px-4 py-2 rounded-full hover:bg-[#238c70] shadow-md">
-                  Update
+              <td className="px-4 py-2 text-center relative">
+                <button
+                  onClick={() => toggleDropdown(product.id)}
+                  className="text-gray-600 hover:text-gray-900"
+                >
+                  &#8942;
                 </button>
+                {dropdownVisible === product.id && (
+                  <div className="absolute top-full right-0 bg-white border shadow-md rounded-md z-10">
+                    <button className="block px-4 py-2 text-left hover:bg-gray-100 w-full">
+                      Update
+                    </button>
+                    <button className="block px-4 py-2 text-left hover:bg-gray-100 w-full">
+                      Delete
+                    </button>
+                  </div>
+                )}
               </td>
             </tr>
           ))}
