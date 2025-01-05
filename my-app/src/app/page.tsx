@@ -209,7 +209,7 @@ const CocoCommercial = () => {
             </p>
             <Button
               variant="outline"
-              className="mt-6 sm:mt-8 rounded-full px-6 sm:px-8"
+              className="mt-6 sm:mt-8 rounded-full px-6 sm:px-8 hover:bg-orange-400 hover:text-white transition-colors duration-300"
             >
               Get Started
             </Button>
