@@ -1,8 +1,11 @@
 "use client";
 
 import React, { useState } from "react";
+import { useRouter } from "next/navigation"; // Use Next.js Router
 
 const ProductListing: React.FC = () => {
+  const router = useRouter(); // Initialize Next.js Router
+
   const products = [
     {
       id: 1,
@@ -47,6 +50,10 @@ const ProductListing: React.FC = () => {
     setDropdownVisible(dropdownVisible === id ? null : id);
   };
 
+  const handleAddProduct = () => {
+    router.push("/"); // Navigate to ProductCreation1 ("/" route)
+  };
+
   return (
     <div className="bg-[#eaf7f4] min-h-screen p-6">
       {/* Header Section */}
@@ -58,7 +65,10 @@ const ProductListing: React.FC = () => {
         />
         <div>
           <h2 className="text-xl font-bold mb-2">Add your products</h2>
-          <button className="bg-[#006d5b] text-white py-2 px-4 rounded-lg shadow-lg hover:bg-[#005a49] flex items-center space-x-2">
+          <button
+            onClick={handleAddProduct}
+            className="bg-[#006d5b] text-white py-2 px-4 rounded-lg shadow-lg hover:bg-[#005a49] flex items-center space-x-2"
+          >
             <span>+ Add product</span>
           </button>
           <p className="text-sm mt-2">Add products for your customers</p>
