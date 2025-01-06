@@ -1,18 +1,16 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import {
-  ChevronRight,
-  Search,
-  BarChart2,
-  ShoppingCart,
-  MessageSquare,
-} from "lucide-react";
+import { ChevronRight, ShoppingBag, ClipboardList, Store } from "lucide-react";
 import Image from "next/image";
 
 const MerchantDashboard = () => {
+  const [showLogoOnScroll, setShowLogoOnScroll] = useState(false);
+  const [isHeaderVisible, setIsHeaderVisible] = useState(true);
+  const [lastScrollY, setLastScrollY] = useState(0);
+
   const initialProducts = [
     {
       id: 1,
@@ -95,7 +93,7 @@ const MerchantDashboard = () => {
         <div className="flex items-center justify-between h-16">
           {/* Logo and Search */}
           <div className="flex items-center flex-1">
-            <div>
+            <div className="opacity-100 translate-y-0">
               <Image
                 src="/cocologo.png"
                 alt="Coco Commercial Logo"
@@ -108,24 +106,32 @@ const MerchantDashboard = () => {
               <div className="relative">
                 <input
                   type="search"
-                  placeholder="Search in CoCo"
+                  placeholder="Search in CoCo Commercial"
                   className="w-full pl-4 pr-10 py-2 rounded-full bg-white/10 border border-white/20 text-white placeholder:text-white/70 focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-transparent"
                 />
-                <Search className="absolute right-3 top-2.5 text-white/70 h-5 w-5" />
               </div>
             </div>
           </div>
 
           {/* Navigation Icons */}
           <div className="flex items-center space-x-8">
-            <button className="text-white hover:text-orange-400 transition-colors duration-300">
-              <BarChart2 className="h-6 w-6" />
+            <button
+              className="text-white hover:text-orange-400 transition-colors duration-300"
+              title="Products"
+            >
+              <ShoppingBag className="h-6 w-6" />
             </button>
-            <button className="text-white hover:text-orange-400 transition-colors duration-300">
-              <ShoppingCart className="h-6 w-6" />
+            <button
+              className="text-white hover:text-orange-400 transition-colors duration-300"
+              title="Orders"
+            >
+              <ClipboardList className="h-6 w-6" />
             </button>
-            <button className="text-white hover:text-orange-400 transition-colors duration-300">
-              <MessageSquare className="h-6 w-6" />
+            <button
+              className="text-white hover:text-orange-400 transition-colors duration-300"
+              title="My Store"
+            >
+              <Store className="h-6 w-6" />
             </button>
 
             {/* Profile */}
@@ -144,7 +150,6 @@ const MerchantDashboard = () => {
       </div>
     </nav>
   );
-
   const ProductTable = () => (
     <Card className="mb-8 shadow-lg hover:shadow-xl transition-all duration-300">
       <CardContent className="p-8">
