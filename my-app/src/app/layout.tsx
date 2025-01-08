@@ -1,5 +1,5 @@
 // src/app/layout.tsx
-import './globals.css'; // Ensure your global Tailwind CSS styles are imported
+import './globals.css'; 
 import React from 'react';
 
 export const metadata = {
