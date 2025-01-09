@@ -3,8 +3,8 @@
 import React, { useState, useEffect } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Menu, X } from "lucide-react";
 import Image from "next/image";
+import Navbar from '@/components/ui/Navbar';
 
 const CocoCommercial = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -76,117 +76,7 @@ const CocoCommercial = () => {
 
   return (
     <div className="w-full mx-auto font-sans text-[#2C3E50]">
-      {/* Navigation Bar */}
-      <nav className="sticky top-0 z-50 bg-[#1B4965] shadow-md transition-all duration-300">
-        <div className="container mx-auto px-6">
-          <div className="flex items-center justify-between h-16">
-            {/* Logo and brand */}
-            <div className="flex items-center">
-              <div
-                className={`transform transition-all duration-500 ease-in-out ${
-                  showLogoOnScroll
-                    ? "opacity-100 translate-y-0"
-                    : "opacity-0 -translate-y-4"
-                }`}
-              >
-                <Image
-                  src="/cocologo.png"
-                  alt="Coco Commercial Logo"
-                  width={50}
-                  height={50}
-                  className="sm:mr-8"
-                />
-              </div>
-              {/* Desktop Navigation */}
-              <div className="hidden md:flex items-center space-x-8">
-                <a
-                  href="#"
-                  className="text-white px-6 py-2 rounded-md transition-all duration-300 hover:bg-orange-400"
-                >
-                  Home
-                </a>
-                <a
-                  href="#about"
-                  className="text-white px-6 py-2 rounded-md transition-all duration-300 hover:bg-orange-400"
-                >
-                  About Us
-                </a>
-                <a
-                  href="#contact"
-                  className="text-white px-6 py-2 rounded-md transition-all duration-300 hover:bg-orange-400"
-                >
-                  Contact Us
-                </a>
-              </div>
-            </div>
-
-            {/* Desktop buttons */}
-            <div className="hidden md:flex items-center space-x-4">
-              <a
-                href="/login"
-                className="text-white px-6 py-2 rounded-md transition-all duration-300 hover:bg-orange-400"
-              >
-                Login
-              </a>
-              <a
-                href="/signup"
-                className="bg-orange-400 hover:bg-orange-500 text-white px-6 py-2 rounded-full font-medium transition-all duration-300 transform hover:scale-105 hover:animate-bounce"
-              >
-                Sign up
-              </a>
-            </div>
-
-            {/* Mobile menu button */}
-            <div className="md:hidden">
-              <button
-                onClick={() => setIsMenuOpen(!isMenuOpen)}
-                className="text-white p-2"
-              >
-                {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
-              </button>
-            </div>
-          </div>
-
-          {/* Mobile Navigation */}
-          {isMenuOpen && (
-            <div className="md:hidden pb-4">
-              <div className="flex flex-col space-y-4">
-                <a
-                  href="#"
-                  className="text-white px-6 py-2 transition-all duration-300 hover:bg-orange-400"
-                >
-                  Home
-                </a>
-                <a
-                  href="#about"
-                  className="text-white px-6 py-2 transition-all duration-300 hover:bg-orange-400"
-                >
-                  About Us
-                </a>
-                <a
-                  href="#contact"
-                  className="text-white px-6 py-2 transition-all duration-300 hover:bg-orange-400"
-                >
-                  Contact Us
-                </a>
-                <a
-                  href="/login"
-                  className="text-white px-6 py-2 transition-all duration-300 hover:bg-orange-400"
-                >
-                  Login
-                </a>
-                <a
-                  href="/signup"
-                  className="bg-orange-400 hover:bg-orange-500 text-white px-6 py-2 rounded-full font-medium transition-all duration-300 transform hover:scale-105 hover:animate-bounce text-center"
-                >
-                  Sign up
-                </a>
-              </div>
-            </div>
-          )}
-        </div>
-      </nav>
-
+      <Navbar />
       {/* Main Content */}
       <main className="container mx-auto px-6">
         {/* Hero Section */}
