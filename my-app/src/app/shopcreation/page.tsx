@@ -30,7 +30,7 @@ const HomePage = () => {
     setSelectedCity(option);
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = (event: { preventDefault: () => void; }) => {
     event.preventDefault();
     if (currentStep < totalSteps) {
       setCurrentStep(currentStep + 1);
