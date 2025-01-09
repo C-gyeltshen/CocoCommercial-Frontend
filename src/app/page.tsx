@@ -13,7 +13,7 @@ const CocoCommercial = () => {
 
   const circleContents = [
     {
-      title: "Bhutanese Entrepreneurs",
+      title: "Bhutanese Entrepreneurs 23",
       subtitle: "Hospitality and Tourism",
       description:
         "Small business owners selling handicrafts, textiles products.",
