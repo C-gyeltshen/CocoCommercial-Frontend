@@ -1,12 +1,7 @@
-/* Import Google Fonts before Tailwind imports */
-@import url('https://fonts.googleapis.com/css2?family=Averia+Serif+Libre:wght@300;400;700&family=Lato:wght@300;400;700&display=swap');
-
-/* Tailwind directives */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* Root variables - within @layer base to work with Tailwind */
 @layer base {
   :root {
     --background: 0 0% 100%;
@@ -29,10 +24,5 @@
     --input: 214.3 31.8% 91.4%;
     --ring: 221 48% 33%;
     --radius: 0.5rem;
-  }
-
-  /* Set default font family for the whole document */
-  body {
-    font-family: 'Lato', sans-serif;
   }
 }
