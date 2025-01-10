@@ -4,7 +4,7 @@ const SearchBar: React.FC = () => {
     return (
         <input
             type="text"
-            placeholder="Search in Gakyid"
+            placeholder="Search in Coco Commercial"
             className="w-full p-2 border rounded-md focus:outline-none focus:border-blue-500"
         />
     );

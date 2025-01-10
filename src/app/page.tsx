@@ -5,6 +5,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import Navbar from '@/components/ui/Navbar';
+import Footer from "@/components/ui/Footer";
 
 const CocoCommercial = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -286,6 +287,7 @@ const CocoCommercial = () => {
           </section>
         </div>
       </main>
+      <Footer />
     </div>
   );
 };

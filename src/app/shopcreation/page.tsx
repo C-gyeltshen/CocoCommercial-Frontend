@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import Select from 'react-select';
-import ProgressBar from '../components/progressbar';
+import ProgressBar from '@/components/ui/progressbar';
 
 const countryOptions = [
   { value: 'usa', label: 'USA', cities: [{ value: 'nyc', label: 'New York' }, { value: 'la', label: 'Los Angeles' }] },
@@ -12,25 +12,38 @@ const countryOptions = [
 const HomePage = () => {
   const [storeName, setStoreName] = useState('');
   const [storeDescription, setStoreDescription] = useState('');
-  const [selectedCountry, setSelectedCountry] = useState(null);
-  const [cityOptions, setCityOptions] = useState([]);
-  const [selectedCity, setSelectedCity] = useState(null);
+  const [selectedCountry, setSelectedCountry] = useState<CountryOption | null>(null);
+  const [cityOptions, setCityOptions] = useState<CityOption[]>([]);
+  const [selectedCity, setSelectedCity] = useState<CityOption | null>(null);
   const [storeImage, setStoreImage] = useState<File | null>(null);
   const [currentStep, setCurrentStep] = useState(1);
   const [completedSteps, setCompletedSteps] = useState(0);
   const totalSteps = 4;
 
-  const handleCountryChange = (option) => {
+  interface CountryOption {
+    value: string;
+    label: string;
+    cities: CityOption[];
+  }
+
+  interface CityOption {
+    value: string;
+    label: string;
+  }
+
+  const handleCountryChange = (option: CountryOption | null) => {
     setSelectedCountry(option);
-    setCityOptions(option.cities);
+    setCityOptions(option ? option.cities : []);
     setSelectedCity(null);
   };
 
-  const handleCityChange = (option) => {
+  const handleCityChange = (option: CityOption | null) => {
     setSelectedCity(option);
   };
 
-  const handleSubmit = (event) => {
+  interface FormEvent extends React.FormEvent<HTMLFormElement> {}
+
+  const handleSubmit = (event: FormEvent) => {
     event.preventDefault();
     if (currentStep < totalSteps) {
       setCurrentStep(currentStep + 1);
