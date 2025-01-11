@@ -2,8 +2,8 @@
 
 import React from "react";
 import { useRouter } from "next/navigation";
-import ProgressBar from "../reusable_component/ProgressBar";
-import FileUpload from "../components/ui/FileUpload";
+import ProgressBar from "@/components/ui/ProgressBar2";
+import FileUpload from "@/components/ui/FileUpload";
 
 const ProductCreation5: React.FC = () => {
   const router = useRouter();
@@ -28,7 +28,7 @@ const ProductCreation5: React.FC = () => {
           <p className="text-center text-sm text-gray-500 mb-4">
             You can edit all the details later
           </p>
-          <FileUpload />
+          <FileUpload onFileUpload={(file: File) => console.log(file)} />
           <div className="flex justify-between mt-4">
             <button
               onClick={handlePrevious}

@@ -1,16 +1,13 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { ChevronRight, ShoppingBag, ClipboardList, Store } from "lucide-react";
+import {ChevronRight,ShoppingBag,ClipboardList,Store,Menu,Search} from "lucide-react";
 import Image from "next/image";
 
 const MerchantDashboard = () => {
-  const [showLogoOnScroll, setShowLogoOnScroll] = useState(false);
-  const [isHeaderVisible, setIsHeaderVisible] = useState(true);
-  const [lastScrollY, setLastScrollY] = useState(0);
-
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const initialProducts = [
     {
       id: 1,
@@ -89,32 +86,45 @@ const MerchantDashboard = () => {
 
   const Header = () => (
     <nav className="sticky top-0 z-50 bg-[#1B4965] shadow-md">
-      <div className="container mx-auto px-6">
+      <div className="container mx-auto px-4 lg:px-6">
         <div className="flex items-center justify-between h-16">
-          {/* Logo and Search */}
-          <div className="flex items-center flex-1">
-            <div className="opacity-100 translate-y-0">
+          {/* Mobile Menu Button */}
+          <button
+            className="lg:hidden text-white p-2"
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+          >
+            <Menu className="h-6 w-6" />
+          </button>
+
+          {/* Logo - Updated for better mobile display */}
+          <div className="flex items-center flex-shrink-0">
+            <div className="relative w-8 h-8 md:w-12 md:h-12">
               <Image
                 src="/cocologo.png"
                 alt="Coco Commercial Logo"
-                width={50}
-                height={50}
-                className="sm:mr-8"
+                fill
+                sizes="(max-width: 768px) 32px, 48px"
+                className="object-contain"
+                priority
+                style={{ minWidth: "32px", minHeight: "32px" }}
               />
-            </div>
-            <div className="ml-8 w-full max-w-xl">
-              <div className="relative">
-                <input
-                  type="search"
-                  placeholder="Search in CoCo Commercial"
-                  className="w-full pl-4 pr-10 py-2 rounded-full bg-white/10 border border-white/20 text-white placeholder:text-white/70 focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-transparent"
-                />
-              </div>
             </div>
           </div>
 
-          {/* Navigation Icons */}
-          <div className="flex items-center space-x-8">
+          {/* Search Bar - Hidden on mobile, shown on larger screens */}
+          <div className="hidden lg:flex flex-1 mx-8">
+            <div className="relative w-full max-w-xl">
+              <input
+                type="search"
+                placeholder="Search in CoCo Commercial"
+                className="w-full pl-4 pr-10 py-2 rounded-full bg-white/10 border border-white/20 text-white placeholder:text-white/70 focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-transparent"
+              />
+              <Search className="absolute right-3 top-2.5 h-5 w-5 text-white/70" />
+            </div>
+          </div>
+
+          {/* Navigation Icons - Hidden on mobile */}
+          <div className="hidden lg:flex items-center space-x-8">
             <button
               className="text-white hover:text-orange-400 transition-colors duration-300"
               title="Products"
@@ -135,47 +145,90 @@ const MerchantDashboard = () => {
             </button>
 
             {/* Profile */}
-            <div className="flex items-center space-x-3 ml-4">
-              <Image
-                src="/api/placeholder/32/32"
-                alt="Profile"
-                width={32}
-                height={32}
-                className="rounded-full border-2 border-white/20"
-              />
+            <div className="flex items-center space-x-3">
+              <div className="relative h-8 w-8">
+                <Image
+                  src="/api/placeholder/32/32"
+                  alt="Profile"
+                  fill
+                  className="rounded-full border-2 border-white/20 object-cover"
+                />
+              </div>
               <span className="text-white font-serif">My Profile</span>
             </div>
           </div>
         </div>
+
+        {/* Mobile Menu */}
+        {isMenuOpen && (
+          <div className="lg:hidden py-4 space-y-4">
+            <div className="relative px-4">
+              <input
+                type="search"
+                placeholder="Search in CoCo Commercial"
+                className="w-full pl-4 pr-10 py-2 rounded-full bg-white/10 border border-white/20 text-white placeholder:text-white/70 focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-transparent"
+              />
+              <Search className="absolute right-7 top-2.5 h-5 w-5 text-white/70" />
+            </div>
+            <div className="flex justify-around border-t border-white/10 pt-4">
+              <button className="text-white hover:text-orange-400 transition-colors duration-300 flex flex-col items-center">
+                <ShoppingBag className="h-6 w-6" />
+                <span className="text-sm mt-1">Products</span>
+              </button>
+              <button className="text-white hover:text-orange-400 transition-colors duration-300 flex flex-col items-center">
+                <ClipboardList className="h-6 w-6" />
+                <span className="text-sm mt-1">Orders</span>
+              </button>
+              <button className="text-white hover:text-orange-400 transition-colors duration-300 flex flex-col items-center">
+                <Store className="h-6 w-6" />
+                <span className="text-sm mt-1">My Store</span>
+              </button>
+            </div>
+
+            {/* Profile Section in Mobile Menu */}
+            <div className="flex items-center justify-center space-x-3 border-t border-white/10 pt-4">
+              <div className="relative h-8 w-8">
+                <Image
+                  src="/api/placeholder/32/32"
+                  alt="Profile"
+                  fill
+                  className="rounded-full border-2 border-white/20 object-cover"
+                />
+              </div>
+              <span className="text-white font-serif">My Profile</span>
+            </div>
+          </div>
+        )}
       </div>
     </nav>
   );
+
   const ProductTable = () => (
     <Card className="mb-8 shadow-lg hover:shadow-xl transition-all duration-300">
-      <CardContent className="p-8">
-        <h2 className="font-serif text-2xl text-[#2C3E50] mb-6">
+      <CardContent className="p-4 md:p-8">
+        <h2 className="font-serif text-xl md:text-2xl text-[#2C3E50] mb-6">
           Products List
         </h2>
         <div className="overflow-x-auto">
           <table className="w-full">
             <thead className="bg-gray-50">
               <tr>
-                <th className="px-6 py-4 text-left font-serif text-[#2C3E50]">
+                <th className="px-2 md:px-6 py-4 text-left text-sm md:text-base font-serif text-[#2C3E50]">
                   ID
                 </th>
-                <th className="px-6 py-4 text-left font-serif text-[#2C3E50]">
+                <th className="px-2 md:px-6 py-4 text-left text-sm md:text-base font-serif text-[#2C3E50]">
                   Product
                 </th>
-                <th className="px-6 py-4 text-left font-serif text-[#2C3E50]">
+                <th className="px-2 md:px-6 py-4 text-left text-sm md:text-base font-serif text-[#2C3E50]">
                   Price
                 </th>
-                <th className="px-6 py-4 text-left font-serif text-[#2C3E50]">
+                <th className="hidden md:table-cell px-6 py-4 text-left font-serif text-[#2C3E50]">
                   Description
                 </th>
-                <th className="px-6 py-4 text-left font-serif text-[#2C3E50]">
+                <th className="px-2 md:px-6 py-4 text-left text-sm md:text-base font-serif text-[#2C3E50]">
                   Quantity
                 </th>
-                <th className="px-6 py-4 text-left font-serif text-[#2C3E50]">
+                <th className="px-2 md:px-6 py-4 text-left text-sm md:text-base font-serif text-[#2C3E50]">
                   Action
                 </th>
               </tr>
@@ -186,24 +239,34 @@ const MerchantDashboard = () => {
                   key={product.id}
                   className="border-t hover:bg-gray-50 transition-colors duration-200"
                 >
-                  <td className="px-6 py-4">{product.id}</td>
-                  <td className="px-6 py-4">
-                    <div className="flex items-center space-x-3">
+                  <td className="px-2 md:px-6 py-4 text-sm md:text-base">
+                    {product.id}
+                  </td>
+                  <td className="px-2 md:px-6 py-4">
+                    <div className="flex items-center space-x-2 md:space-x-3">
                       <img
                         src={product.image}
                         alt=""
-                        className="h-12 w-12 rounded-lg"
+                        className="h-8 w-8 md:h-12 md:w-12 rounded-lg"
                       />
-                      <span className="font-medium">{product.name}</span>
+                      <span className="text-sm md:text-base font-medium">
+                        {product.name}
+                      </span>
                     </div>
                   </td>
-                  <td className="px-6 py-4">Nu.{product.price}</td>
-                  <td className="px-6 py-4">{product.description}</td>
-                  <td className="px-6 py-4">{product.quantity}</td>
-                  <td className="px-6 py-4">
+                  <td className="px-2 md:px-6 py-4 text-sm md:text-base">
+                    Nu.{product.price}
+                  </td>
+                  <td className="hidden md:table-cell px-6 py-4">
+                    {product.description}
+                  </td>
+                  <td className="px-2 md:px-6 py-4 text-sm md:text-base">
+                    {product.quantity}
+                  </td>
+                  <td className="px-2 md:px-6 py-4">
                     <Button
                       variant="outline"
-                      className="hover:bg-orange-400 hover:text-white transition-all duration-300 rounded-full"
+                      className="text-sm md:text-base hover:bg-orange-400 hover:text-white transition-all duration-300 rounded-full"
                     >
                       Update
                     </Button>
@@ -227,22 +290,24 @@ const MerchantDashboard = () => {
 
   const OrdersList = () => (
     <Card className="shadow-lg hover:shadow-xl transition-all duration-300">
-      <CardContent className="p-8">
-        <h2 className="font-serif text-2xl text-[#2C3E50] mb-6">Orders List</h2>
+      <CardContent className="p-4 md:p-8">
+        <h2 className="font-serif text-xl md:text-2xl text-[#2C3E50] mb-6">
+          Orders List
+        </h2>
         <div className="space-y-4">
           {orders.map((order) => (
             <div
               key={order.id}
-              className="border rounded-lg p-6 hover:shadow-md transition-all duration-200"
+              className="border rounded-lg p-4 md:p-6 hover:shadow-md transition-all duration-200"
             >
               <div className="flex flex-wrap items-center justify-between mb-4">
-                <span className="font-serif text-lg text-[#2C3E50]">
+                <span className="font-serif text-base md:text-lg text-[#2C3E50]">
                   Order #{order.id}
                 </span>
                 <div className="flex items-center space-x-2">
                   <Button
                     variant="outline"
-                    className="hover:bg-orange-400 hover:text-white transition-all duration-300 rounded-full"
+                    className="text-sm md:text-base hover:bg-orange-400 hover:text-white transition-all duration-300 rounded-full"
                   >
                     Update
                   </Button>
@@ -254,20 +319,22 @@ const MerchantDashboard = () => {
                   key={index}
                   className="flex flex-wrap items-center justify-between py-4 border-t"
                 >
-                  <div className="flex items-center space-x-4">
+                  <div className="flex items-center space-x-3 md:space-x-4">
                     <img
                       src={item.image}
                       alt=""
-                      className="h-12 w-12 rounded-lg"
+                      className="h-8 w-8 md:h-12 md:w-12 rounded-lg"
                     />
                     <div>
-                      <div className="font-medium">{item.name}</div>
-                      <div className="text-sm text-gray-500">
+                      <div className="text-sm md:text-base font-medium">
+                        {item.name}
+                      </div>
+                      <div className="text-xs md:text-sm text-gray-500">
                         Nu.{item.price} x {item.quantity}
                       </div>
                     </div>
                   </div>
-                  <div className="font-serif font-medium text-[#2C3E50]">
+                  <div className="font-serif font-medium text-sm md:text-base text-[#2C3E50]">
                     Nu.{item.total}
                   </div>
                 </div>
@@ -290,7 +357,7 @@ const MerchantDashboard = () => {
   return (
     <div className="w-full mx-auto font-sans text-[#2C3E50]">
       <Header />
-      <main className="max-w-7xl mx-auto px-6 py-8">
+      <main className="max-w-7xl mx-auto px-4 md:px-6 py-4 md:py-8">
         <ProductTable />
         <OrdersList />
       </main>

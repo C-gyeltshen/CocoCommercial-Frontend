@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Averia_Serif_Libre, Lato } from 'next/font/google';
+import { Toaster } from "@/components/ui/toaster";
 import "./globals.css";
 
 // Configure Averia Serif Libre for headers
@@ -35,6 +36,7 @@ export default function RootLayout({
         className={`${averiaSerifLibre.variable} ${lato.variable} font-lato antialiased`}
       >
         {children}
+        <Toaster />
       </body>
     </html>
   );

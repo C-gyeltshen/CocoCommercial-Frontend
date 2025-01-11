@@ -1,9 +1,9 @@
 'use client';
 
 import React, { useState } from 'react';
-import OrderTable from '../components/OrderTable';
-import SearchBar from '../components/SearchBar';
-import StatusFilters from '../components/StatusFilters';
+import OrderTable from '@/components/ui/OrderTable';
+import SearchBar from '@/components/ui/SearchBar';
+import StatusFilters from '@/components/ui/StatusFilters';
 
 const OrdersManagement: React.FC = () => {
     const [filter, setFilter] = useState('All');
