@@ -5,6 +5,8 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { ChevronRight, ShoppingBag, ClipboardList, Store, Trash2, Menu } from "lucide-react";
 import Image from "next/image";
+import OrderDetailsPopup from "../orderdetails/page";
+
 
 const OrdersManagement = () => {
   const orderStatuses = [
@@ -189,7 +191,7 @@ const OrdersManagement = () => {
     const filteredOrders = activeStatus === "All" 
       ? orders 
       : orders.filter(order => order.status === activeStatus);
-
+  
     return (
       <Card className="shadow-lg hover:shadow-xl transition-all duration-300">
         <CardContent className="p-4 sm:p-8">
@@ -223,51 +225,41 @@ const OrdersManagement = () => {
           </div>
 
           <div className="space-y-4">
-            {filteredOrders.map((order) => (
-              <div
-                key={order.id}
-                className="border rounded-lg p-4 hover:shadow-md transition-all duration-200"
-              >
-                {order.items.map((item, index) => (
-                  <div key={index} className="flex flex-col sm:flex-row items-start sm:items-center justify-between space-y-4 sm:space-y-0">
-                    <div className="flex flex-wrap items-center gap-4 flex-1">
-                      <span className="text-gray-600">#{order.id}</span>
-                      <img src={item.image} alt="" className="h-12 w-12 rounded-lg" />
-                      <span className="font-medium flex-1">{item.name}</span>
-                      <div className="flex items-center space-x-2 sm:space-x-4 min-w-max">
-                        <span className="text-gray-600">Nu.{item.price}</span>
-                        <span className="text-gray-600">x {item.quantity}</span>
-                        <span className="font-medium">Nu.{item.total}</span>
-                      </div>
-                    </div>
-                    <div className="flex items-center space-x-2 sm:space-x-4 w-full sm:w-auto">
-                      <span className={`px-3 py-1 rounded-full text-sm ${
-                        order.status === "Cancelled" ? "bg-red-100 text-red-600" : "bg-orange-100 text-orange-600"
-                      }`}>
-                        {order.status}
-                      </span>
-                      <Button
-                        variant="outline"
-                        className="hover:bg-orange-400 hover:text-white transition-all duration-300 rounded-full"
-                        onClick={() => updateOrderStatus(order.id)}
-                      >
-                        Update
-                      </Button>
-                      <Button
-                        variant="outline"
-                        className="hover:bg-red-400 hover:text-white transition-all duration-300 rounded-full"
-                        onClick={() => cancelOrder(order.id)}
-                      >
-                        <Trash2 className="h-4 w-4" />
-                      </Button>
-                    </div>
-                  </div>
-                ))}
+          {filteredOrders.map((order) => (
+            <div
+              key={order.id}
+              className="border rounded-lg hover:shadow-md transition-all duration-200"
+            >
+              <OrderDetailsPopup order={order} />
+              <div className="flex justify-end px-4 pb-4">
+                <div className="flex items-center space-x-2 sm:space-x-4">
+                  <Button
+                    variant="outline"
+                    className="hover:bg-orange-400 hover:text-white transition-all duration-300 rounded-full"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      updateOrderStatus(order.id);
+                    }}
+                  >
+                    Update
+                  </Button>
+                  <Button
+                    variant="outline"
+                    className="hover:bg-red-400 hover:text-white transition-all duration-300 rounded-full"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      cancelOrder(order.id);
+                    }}
+                  >
+                    <Trash2 className="h-4 w-4" />
+                  </Button>
+                </div>
               </div>
-            ))}
-          </div>
-        </CardContent>
-      </Card>
+            </div>
+          ))}
+        </div>
+      </CardContent>
+    </Card>
     );
   };
 

@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@heroicons/react": "^2.2.0",
+    "@radix-ui/react-dialog": "^1.1.4",
     "autoprefixer": "^10.4.20",
     "clsx": "^2.1.1",
     "heroicons": "^2.2.0",
@@ -21,11 +22,12 @@
     "react-select": "^5.9.0",
     "react-slick": "^0.30.3",
     "slick-carousel": "^1.8.1",
+    "tailwind-merge": "^2.6.0",
     "tailwindcss-animate": "^1.0.7"
   },
   "devDependencies": {
     "@types/node": "^20",
-    "@types/react": "^19",
+    "@types/react": "^19.0.6",
     "@types/react-dom": "^19",
     "@types/react-slick": "^0.23.13",
     "postcss": "^8.4.49",
