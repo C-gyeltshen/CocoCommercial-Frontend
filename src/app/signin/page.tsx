@@ -210,7 +210,7 @@ const LoginPage = () => {
                     className="w-full border-2 py-2 rounded-md hover:bg-gray-50 transition-all duration-300"
                   >
                     <Image
-                      src="/google-icon.png"
+                      src="/google.png"
                       alt="Google"
                       width={20}
                       height={20}
@@ -223,7 +223,7 @@ const LoginPage = () => {
                     className="w-full border-2 py-2 rounded-md hover:bg-gray-50 transition-all duration-300"
                   >
                     <Image
-                      src="/facebook-icon.png"
+                      src="/facebook.png"
                       alt="Facebook"
                       width={20}
                       height={20}
