@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 import {
   Dialog,
   DialogContent,
@@ -8,22 +8,35 @@ import {
 } from "@/components/ui/dialog";
 import { CalendarDays, MapPin, Phone, User, Calendar } from "lucide-react";
 
-const OrderDetailsPopup = ({ order }) => {
-  // Extended order details with fulfillment date
-  const orderDetails = {
-    customerName: "Kinley Wangyel",
-    phoneNumber: "+975 17123456",
-    location: "Thimphu, Bhutan",
-    orderDate: "2025-01-13",
-    fulfillmentDate: "2025-01-30", 
-    fulfillmentStatus: order.status,
-    deliveryNotes: "Please deliver to the reception area",
-    paymentMethod: "Mbob",
-    address: "Building 4, Norzin Lam, Thimphu, 11001"
-  };
+interface OrderItem {
+  image: string;
+  name: string;
+  price: number;
+  quantity: number;
+  total: number;
+}
 
-  // Function to format dates nicely
-  const formatDate = (dateString: string | number | Date) => {
+interface Order {
+  id: number;
+  status: string;
+  customerName: string;
+  phoneNumber: string;
+  location: string;
+  orderDate: string;
+  fulfillmentDate: string;
+  deliveryNotes: string;
+  paymentMethod: string;
+  address: string;
+  items: OrderItem[];
+}
+
+interface OrderDetailsPopupProps {
+  order: Order;
+  children: ReactNode;
+}
+
+const OrderDetailsPopup: React.FC<OrderDetailsPopupProps> = ({ order, children }) => {
+  const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString('en-US', {
       year: 'numeric',
       month: 'long',
@@ -34,102 +47,93 @@ const OrderDetailsPopup = ({ order }) => {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <div className="cursor-pointer hover:bg-gray-50 w-full p-4 transition-colors duration-200">
-          {order.items.map((item: { image: string | undefined; name: string | number | bigint | boolean | React.ReactElement<unknown, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | Promise<string | number | bigint | boolean | React.ReactPortal | React.ReactElement<unknown, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | null | undefined> | null | undefined; price: string | number | bigint | boolean | React.ReactElement<unknown, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | Promise<string | number | bigint | boolean | React.ReactPortal | React.ReactElement<unknown, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | null | undefined> | null | undefined; quantity: string | number | bigint | boolean | React.ReactElement<unknown, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | Promise<string | number | bigint | boolean | React.ReactPortal | React.ReactElement<unknown, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | null | undefined> | null | undefined; total: string | number | bigint | boolean | React.ReactElement<unknown, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | Promise<string | number | bigint | boolean | React.ReactPortal | React.ReactElement<unknown, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | null | undefined> | null | undefined; }, index: React.Key | null | undefined) => (
-            <div key={index} className="flex items-center justify-between">
-              <div className="flex items-center space-x-4 flex-1">
-                <span className="text-gray-600">#{order.id}</span>
-                <img src={item.image} alt="" className="h-12 w-12 rounded-lg" />
-                <span className="font-medium flex-1">{item.name}</span>
-                <span className="text-gray-600">Nu.{item.price}</span>
-                <span className="text-gray-600">x {item.quantity}</span>
-                <span className="font-medium">Nu.{item.total}</span>
-              </div>
-              <div className="flex items-center space-x-4 ml-4">
-                <span className={`px-3 py-1 rounded-full text-sm ${
-                  order.status === "Cancelled" ? "bg-red-100 text-red-600" : "bg-orange-100 text-orange-600"
-                }`}>
-                  {order.status}
-                </span>
-              </div>
-            </div>
-          ))}
-        </div>
+        {children}
       </DialogTrigger>
       
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent className="w-[95vw] max-w-[425px] p-4 sm:p-6 overflow-y-auto max-h-[90vh]">
         <DialogHeader>
-          <DialogTitle className="text-xl font-serif mb-4">Order Details #{order.id}</DialogTitle>
+          <DialogTitle className="text-lg sm:text-xl font-serif mb-4">Order Details #{order.id}</DialogTitle>
         </DialogHeader>
         
         <div className="space-y-6">
           {/* Customer Information */}
           <div className="space-y-4">
-            <h3 className="font-medium text-lg">Customer Information</h3>
+            <h3 className="font-medium text-base sm:text-lg">Customer Information</h3>
             <div className="grid gap-4">
               <div className="flex items-center space-x-3 text-gray-600">
-                <User className="h-5 w-5" />
-                <span>{orderDetails.customerName}</span>
+                <User className="h-5 w-5 flex-shrink-0" />
+                <span className="text-sm sm:text-base break-words">{order.customerName}</span>
               </div>
               <div className="flex items-center space-x-3 text-gray-600">
-                <Phone className="h-5 w-5" />
-                <span>{orderDetails.phoneNumber}</span>
+                <Phone className="h-5 w-5 flex-shrink-0" />
+                <span className="text-sm sm:text-base">{order.phoneNumber}</span>
               </div>
               <div className="flex items-center space-x-3 text-gray-600">
-                <MapPin className="h-5 w-5" />
-                <span>{orderDetails.location}</span>
+                <MapPin className="h-5 w-5 flex-shrink-0" />
+                <span className="text-sm sm:text-base break-words">{order.location}</span>
               </div>
             </div>
           </div>
 
           {/* Order Dates */}
           <div className="space-y-4">
-            <h3 className="font-medium text-lg">Order Timeline</h3>
+            <h3 className="font-medium text-base sm:text-lg">Order Timeline</h3>
             <div className="grid gap-4">
-              <div className="flex items-center space-x-3 text-gray-600">
-                <CalendarDays className="h-5 w-5" />
+              <div className="flex items-start space-x-3 text-gray-600">
+                <CalendarDays className="h-5 w-5 flex-shrink-0 mt-1" />
                 <div>
-                  <span className="block font-medium">Order Date</span>
-                  <span>{formatDate(orderDetails.orderDate)}</span>
+                  <span className="block font-medium text-sm sm:text-base">Order Date</span>
+                  <span className="text-sm sm:text-base">{formatDate(order.orderDate)}</span>
                 </div>
               </div>
-              <div className="flex items-center space-x-3 text-gray-600">
-                <Calendar className="h-5 w-5" />
+              <div className="flex items-start space-x-3 text-gray-600">
+                <Calendar className="h-5 w-5 flex-shrink-0 mt-1" />
                 <div>
-                  <span className="block font-medium">Requested Fulfillment Date</span>
-                  <span>{formatDate(orderDetails.fulfillmentDate)}</span>
+                  <span className="block font-medium text-sm sm:text-base">Requested Fulfillment</span>
+                  <span className="text-sm sm:text-base">{formatDate(order.fulfillmentDate)}</span>
                 </div>
               </div>
             </div>
           </div>
 
-          {/* Order Details */}
+          {/* Delivery Details */}
           <div className="space-y-4">
-            <h3 className="font-medium text-lg">Delivery Details</h3>
-            <div className="grid gap-2 text-gray-600">
-              <p><span className="font-medium">Full Address:</span> {orderDetails.address}</p>
-              <p><span className="font-medium">Delivery Notes:</span> {orderDetails.deliveryNotes}</p>
-              <p><span className="font-medium">Payment Method:</span> {orderDetails.paymentMethod}</p>
-              <p><span className="font-medium">Status:</span> <span className={`px-2 py-1 rounded-full text-sm ${
-                orderDetails.fulfillmentStatus === "Cancelled" ? "bg-red-100 text-red-600" : "bg-orange-100 text-orange-600"
-              }`}>{orderDetails.fulfillmentStatus}</span></p>
+            <h3 className="font-medium text-base sm:text-lg">Delivery Details</h3>
+            <div className="grid gap-2 text-gray-600 text-sm sm:text-base">
+              <p><span className="font-medium">Full Address:</span> 
+                <span className="break-words ml-2">{order.address}</span>
+              </p>
+              <p><span className="font-medium">Delivery Notes:</span> 
+                <span className="break-words ml-2">{order.deliveryNotes}</span>
+              </p>
+              <p><span className="font-medium">Payment Method:</span> 
+                <span className="ml-2">{order.paymentMethod}</span>
+              </p>
+              <p className="flex items-center">
+                <span className="font-medium mr-2">Status:</span> 
+                <span className={`px-2 py-1 rounded-full text-xs sm:text-sm ${
+                  order.status === "Cancelled" ? "bg-red-100 text-red-600" : "bg-orange-100 text-orange-600"
+                }`}>
+                  {order.status}
+                </span>
+              </p>
             </div>
           </div>
 
           {/* Items List */}
           <div className="space-y-4">
-            <h3 className="font-medium text-lg">Order Items</h3>
-            <div className="space-y-3">
-              {order.items.map((item: { image: string | undefined; name: string | number | bigint | boolean | React.ReactElement<unknown, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | Promise<string | number | bigint | boolean | React.ReactPortal | React.ReactElement<unknown, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | null | undefined> | null | undefined; quantity: string | number | bigint | boolean | React.ReactElement<unknown, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | Promise<string | number | bigint | boolean | React.ReactPortal | React.ReactElement<unknown, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | null | undefined> | null | undefined; total: string | number | bigint | boolean | React.ReactElement<unknown, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | Promise<string | number | bigint | boolean | React.ReactPortal | React.ReactElement<unknown, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | null | undefined> | null | undefined; }, index: React.Key | null | undefined) => (
-                <div key={index} className="flex justify-between items-center py-2 border-b">
-                  <div className="flex items-center space-x-3">
-                    <img src={item.image} alt="" className="h-10 w-10 rounded-lg" />
+            <h3 className="font-medium text-base sm:text-lg">Order Items</h3>
+            <div className="max-h-48 overflow-y-auto pr-2 space-y-3">
+              {order.items.map((item, index) => (
+                <div key={index} className="flex flex-col sm:flex-row justify-between items-start sm:items-center py-2 border-b">
+                  <div className="flex items-center space-x-3 mb-2 sm:mb-0">
+                    <img src={item.image} alt="" className="h-10 w-10 rounded-lg flex-shrink-0" />
                     <div>
-                      <p className="font-medium">{item.name}</p>
-                      <p className="text-sm text-gray-500">Quantity: {item.quantity}</p>
+                      <p className="font-medium text-sm sm:text-base">{item.name}</p>
+                      <p className="text-xs sm:text-sm text-gray-500">Quantity: {item.quantity}</p>
                     </div>
                   </div>
-                  <p className="font-medium">Nu.{item.total}</p>
+                  <p className="font-medium text-sm sm:text-base">Nu.{item.total.toLocaleString()}</p>
                 </div>
               ))}
             </div>
@@ -138,9 +142,9 @@ const OrderDetailsPopup = ({ order }) => {
           {/* Order Summary */}
           <div className="border-t pt-4">
             <div className="flex justify-between items-center">
-              <span className="font-medium">Total Amount</span>
-              <span className="font-medium text-lg">
-                Nu.{order.items.reduce((sum: any, item: { total: any; }) => sum + item.total, 0)}
+              <span className="font-medium text-sm sm:text-base">Total Amount</span>
+              <span className="font-medium text-base sm:text-lg">
+                Nu.{order.items.reduce((sum, item) => sum + item.total, 0).toLocaleString()}
               </span>
             </div>
           </div>
