@@ -5,6 +5,9 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Menu, X, Eye, EyeOff } from "lucide-react";
 import Image from "next/image";
+import Footer from "@/components/ui/Footer";
+import { useRouter } from "next/navigation";
+import Navbar from "@/components/ui/Navbar";
 
 const LoginPage = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -26,99 +29,8 @@ const LoginPage = () => {
 
   return (
     <div className="w-full mx-auto font-sans text-[#2C3E50]">
-      {/* Navigation Bar - Consistent with landing and signup pages */}
-      <nav className="sticky top-0 z-50 bg-[#1B4965] shadow-md transition-all duration-300">
-        <div className="container mx-auto px-6">
-          <div className="flex items-center justify-between h-16">
-            <div className="flex items-center">
-              <div
-                className={`transform transition-all duration-500 ease-in-out ${
-                  showLogoOnScroll
-                    ? "opacity-100 translate-y-0"
-                    : "opacity-0 -translate-y-4"
-                }`}
-              >
-                <Image
-                  src="/cocologo.png"
-                  alt="Coco Commercial Logo"
-                  width={50}
-                  height={50}
-                  className="sm:mr-8"
-                />
-              </div>
-              <div className="hidden md:flex items-center space-x-8">
-                <a
-                  href="/"
-                  className="text-white px-6 py-2 rounded-md transition-all duration-300 hover:bg-orange-400"
-                >
-                  Home
-                </a>
-                <a
-                  href="/#about"
-                  className="text-white px-6 py-2 rounded-md transition-all duration-300 hover:bg-orange-400"
-                >
-                  About Us
-                </a>
-                <a
-                  href="/#contact"
-                  className="text-white px-6 py-2 rounded-md transition-all duration-300 hover:bg-orange-400"
-                >
-                  Contact Us
-                </a>
-              </div>
-            </div>
-
-            <div className="hidden md:flex items-center space-x-4">
-              <a
-                href="/signup"
-                className="bg-orange-400 hover:bg-orange-500 text-white px-6 py-2 rounded-full font-medium transition-all duration-300 transform hover:scale-105"
-              >
-                Sign up
-              </a>
-            </div>
-
-            <div className="md:hidden">
-              <button
-                onClick={() => setIsMenuOpen(!isMenuOpen)}
-                className="text-white p-2"
-              >
-                {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
-              </button>
-            </div>
-          </div>
-
-          {isMenuOpen && (
-            <div className="md:hidden pb-4">
-              <div className="flex flex-col space-y-4">
-                <a
-                  href="/"
-                  className="text-white px-6 py-2 transition-all duration-300 hover:bg-orange-400"
-                >
-                  Home
-                </a>
-                <a
-                  href="/#about"
-                  className="text-white px-6 py-2 transition-all duration-300 hover:bg-orange-400"
-                >
-                  About Us
-                </a>
-                <a
-                  href="/#contact"
-                  className="text-white px-6 py-2 transition-all duration-300 hover:bg-orange-400"
-                >
-                  Contact Us
-                </a>
-                <a
-                  href="/signup"
-                  className="bg-orange-400 text-white px-6 py-2 rounded-full text-center hover:bg-orange-500 transition-all duration-300"
-                >
-                  Sign up
-                </a>
-              </div>
-            </div>
-          )}
-        </div>
-      </nav>
+      < Navbar />
+     
 
       {/* Main Content */}
       <main className="container mx-auto px-6 py-12">
@@ -181,7 +93,7 @@ const LoginPage = () => {
                     </label>
                   </div>
                   <a
-                    href="/forgot-password"
+                    href="signin\forgetpassword"
                     className="text-sm text-[#1B4965] hover:underline"
                   >
                     Forgot password?
@@ -247,6 +159,7 @@ const LoginPage = () => {
           </Card>
         </div>
       </main>
+      <Footer />
     </div>
   );
 };
