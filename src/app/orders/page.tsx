@@ -6,6 +6,9 @@ import { Button } from "@/components/ui/button";
 import { ChevronRight, ShoppingBag, ClipboardList, Store, Trash2, Menu } from "lucide-react";
 import Image from "next/image";
 import OrderDetailsPopup from "../orderdetails/page";
+import { useRouter } from 'next/navigation';
+
+
 
 const OrdersManagement = () => {
   const orderStatuses = [
@@ -17,6 +20,8 @@ const OrdersManagement = () => {
     "Delivered",
     "Cancelled"
   ];
+
+  const router = useRouter();
 
   const [activeStatus, setActiveStatus] = useState("All");
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -213,18 +218,19 @@ const OrdersManagement = () => {
       ? orders 
       : orders.filter(order => order.status === activeStatus);
   
-    return (
-      <Card className="shadow-lg hover:shadow-xl transition-all duration-300">
-        <CardContent className="p-4 sm:p-8">
-          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 space-y-4 sm:space-y-0">
-            <h2 className="font-serif text-xl sm:text-2xl text-[#2C3E50]">Your Orders</h2>
-            <Button 
-              variant="outline"
-              className="w-full sm:w-auto hover:bg-orange-400 hover:text-white transition-all duration-300 rounded-full"
-            >
-              Add Order Manually
-            </Button>
-          </div>
+      return (
+        <Card className="shadow-lg hover:shadow-xl transition-all duration-300">
+          <CardContent className="p-4 sm:p-8">
+            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 space-y-4 sm:space-y-0">
+              <h2 className="font-serif text-xl sm:text-2xl text-[#2C3E50]">Your Orders</h2>
+              <Button 
+                variant="outline"
+                className="w-full sm:w-auto hover:bg-orange-400 hover:text-white transition-all duration-300 rounded-full"
+                onClick={() => router.push('/addorder')} 
+              >
+                Add Order Manually
+              </Button>
+            </div>
 
           <div className="flex space-x-4 mb-6 overflow-x-auto pb-2 scrollbar-thin scrollbar-thumb-gray-300 -mx-4 px-4 sm:mx-0 sm:px-0">
             <div className="flex space-x-2 sm:space-x-4 min-w-min">
