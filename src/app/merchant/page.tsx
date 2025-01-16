@@ -3,7 +3,8 @@
 import React, { useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import {ChevronRight,ShoppingBag,ClipboardList,Store,Menu,Search} from "lucide-react";
+import CustomerNavbar from '@/components/ui/Navbar1';
+import { ChevronRight, ShoppingBag, ClipboardList, Store, Menu, Search } from "lucide-react";
 import Image from "next/image";
 
 const MerchantDashboard = () => {
@@ -83,125 +84,6 @@ const MerchantDashboard = () => {
 
   const [products, setProducts] = useState(initialProducts);
   const [orders, setOrders] = useState(initialOrders);
-
-  const Header = () => (
-    <nav className="sticky top-0 z-50 bg-[#1B4965] shadow-md">
-      <div className="container mx-auto px-4 lg:px-6">
-        <div className="flex items-center justify-between h-16">
-          {/* Mobile Menu Button */}
-          <button
-            className="lg:hidden text-white p-2"
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
-          >
-            <Menu className="h-6 w-6" />
-          </button>
-
-          {/* Logo - Updated for better mobile display */}
-          <div className="flex items-center flex-shrink-0">
-            <div className="relative w-8 h-8 md:w-12 md:h-12">
-              <Image
-                src="/cocologo.png"
-                alt="Coco Commercial Logo"
-                fill
-                sizes="(max-width: 768px) 32px, 48px"
-                className="object-contain"
-                priority
-                style={{ minWidth: "32px", minHeight: "32px" }}
-              />
-            </div>
-          </div>
-
-          {/* Search Bar - Hidden on mobile, shown on larger screens */}
-          <div className="hidden lg:flex flex-1 mx-8">
-            <div className="relative w-full max-w-xl">
-              <input
-                type="search"
-                placeholder="Search in CoCo Commercial"
-                className="w-full pl-4 pr-10 py-2 rounded-full bg-white/10 border border-white/20 text-white placeholder:text-white/70 focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-transparent"
-              />
-              <Search className="absolute right-3 top-2.5 h-5 w-5 text-white/70" />
-            </div>
-          </div>
-
-          {/* Navigation Icons - Hidden on mobile */}
-          <div className="hidden lg:flex items-center space-x-8">
-            <button
-              className="text-white hover:text-orange-400 transition-colors duration-300"
-              title="Products"
-            >
-              <ShoppingBag className="h-6 w-6" />
-            </button>
-            <button
-              className="text-white hover:text-orange-400 transition-colors duration-300"
-              title="Orders"
-            >
-              <ClipboardList className="h-6 w-6" />
-            </button>
-            <button
-              className="text-white hover:text-orange-400 transition-colors duration-300"
-              title="My Store"
-            >
-              <Store className="h-6 w-6" />
-            </button>
-
-            {/* Profile */}
-            <div className="flex items-center space-x-3">
-              <div className="relative h-8 w-8">
-                <Image
-                  src="/api/placeholder/32/32"
-                  alt="Profile"
-                  fill
-                  className="rounded-full border-2 border-white/20 object-cover"
-                />
-              </div>
-              <span className="text-white font-serif">My Profile</span>
-            </div>
-          </div>
-        </div>
-
-        {/* Mobile Menu */}
-        {isMenuOpen && (
-          <div className="lg:hidden py-4 space-y-4">
-            <div className="relative px-4">
-              <input
-                type="search"
-                placeholder="Search in CoCo Commercial"
-                className="w-full pl-4 pr-10 py-2 rounded-full bg-white/10 border border-white/20 text-white placeholder:text-white/70 focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-transparent"
-              />
-              <Search className="absolute right-7 top-2.5 h-5 w-5 text-white/70" />
-            </div>
-            <div className="flex justify-around border-t border-white/10 pt-4">
-              <button className="text-white hover:text-orange-400 transition-colors duration-300 flex flex-col items-center">
-                <ShoppingBag className="h-6 w-6" />
-                <span className="text-sm mt-1">Products</span>
-              </button>
-              <button className="text-white hover:text-orange-400 transition-colors duration-300 flex flex-col items-center">
-                <ClipboardList className="h-6 w-6" />
-                <span className="text-sm mt-1">Orders</span>
-              </button>
-              <button className="text-white hover:text-orange-400 transition-colors duration-300 flex flex-col items-center">
-                <Store className="h-6 w-6" />
-                <span className="text-sm mt-1">My Store</span>
-              </button>
-            </div>
-
-            {/* Profile Section in Mobile Menu */}
-            <div className="flex items-center justify-center space-x-3 border-t border-white/10 pt-4">
-              <div className="relative h-8 w-8">
-                <Image
-                  src="/api/placeholder/32/32"
-                  alt="Profile"
-                  fill
-                  className="rounded-full border-2 border-white/20 object-cover"
-                />
-              </div>
-              <span className="text-white font-serif">My Profile</span>
-            </div>
-          </div>
-        )}
-      </div>
-    </nav>
-  );
 
   const ProductTable = () => (
     <Card className="mb-8 shadow-lg hover:shadow-xl transition-all duration-300">
@@ -356,7 +238,7 @@ const MerchantDashboard = () => {
 
   return (
     <div className="w-full mx-auto font-sans text-[#2C3E50]">
-      <Header />
+      <CustomerNavbar/>
       <main className="max-w-7xl mx-auto px-4 md:px-6 py-4 md:py-8">
         <ProductTable />
         <OrdersList />

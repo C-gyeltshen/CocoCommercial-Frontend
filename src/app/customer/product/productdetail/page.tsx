@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
-import Navbar from '@/components/ui/Navbar';
+import CustomerNavbar from '@/components/ui/Navbar2';
 import Footer from "@/components/ui/Footer";
 import { ShoppingCart, Store, Star, Heart, Share2, Minus, Plus } from "lucide-react";
 
@@ -47,7 +47,7 @@ const ProductDetail = () => {
 
   return (
     <div className="w-full mx-auto font-sans text-[#2C3E50]">
-      <Navbar />
+      <CustomerNavbar />
       <main className="container mx-auto px-6 py-8">
         {/* Breadcrumb */}
         <div className="text-sm mb-6">
