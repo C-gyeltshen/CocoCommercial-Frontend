@@ -1,10 +1,10 @@
 "use client";
 
 import React, { useState } from "react";
-import { useRouter } from "next/navigation"; // Use Next.js Router
+import { useRouter } from "next/navigation"; 
 
 const ProductListing: React.FC = () => {
-  const router = useRouter(); // Initialize Next.js Router
+  const router = useRouter(); 
 
   const products = [
     {
@@ -51,12 +51,11 @@ const ProductListing: React.FC = () => {
   };
 
   const handleAddProduct = () => {
-    router.push("/"); // Navigate to ProductCreation1 ("/" route)
+    router.push("/ProductCreation_1"); 
   };
 
   return (
     <div className="bg-[#eaf7f4] min-h-screen p-6">
-      {/* Header Section */}
       <div className="bg-[#629584] p-6 rounded-md text-white mb-6 flex items-center">
         <img
           src="/product.jpg"
