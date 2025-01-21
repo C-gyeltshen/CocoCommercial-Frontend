@@ -1,10 +1,12 @@
 "use client";
 
 import React, { useState } from "react";
-import { useRouter } from "next/navigation"; 
+import { useRouter } from "next/navigation";
+import AddNewProduct from "@/app/addnewproduct/page";
+import EditNewProduct from "@/app/editnewproduct/page";
 
 const ProductListing: React.FC = () => {
-  const router = useRouter(); 
+  const router = useRouter();
 
   const products = [
     {
@@ -45,14 +47,25 @@ const ProductListing: React.FC = () => {
   ];
 
   const [dropdownVisible, setDropdownVisible] = useState<number | null>(null);
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState<any>(null);
 
   const toggleDropdown = (id: number) => {
     setDropdownVisible(dropdownVisible === id ? null : id);
   };
 
   const handleAddProduct = () => {
-    router.push("/ProductCreation_1"); 
+    setIsAddModalOpen(true); // Show Add New Product modal
   };
+
+  const handleEditProduct = (product: any) => {
+    setSelectedProduct(product); // Set the product to be edited
+    setIsEditModalOpen(true); // Show Edit Product modal
+  };
+
+  const handleCloseAddModal = () => setIsAddModalOpen(false);
+  const handleCloseEditModal = () => setIsEditModalOpen(false);
 
   return (
     <div className="bg-[#eaf7f4] min-h-screen p-6">
@@ -107,7 +120,10 @@ const ProductListing: React.FC = () => {
                 </button>
                 {dropdownVisible === product.id && (
                   <div className="absolute top-full right-0 bg-white border shadow-md rounded-md z-10">
-                    <button className="block px-4 py-2 text-left hover:bg-gray-100 w-full">
+                    <button
+                      onClick={() => handleEditProduct(product)}
+                      className="block px-4 py-2 text-left hover:bg-gray-100 w-full"
+                    >
                       Update
                     </button>
                     <button className="block px-4 py-2 text-left hover:bg-gray-100 w-full">
@@ -120,6 +136,27 @@ const ProductListing: React.FC = () => {
           ))}
         </tbody>
       </table>
+
+      {/* Add New Product Modal */}
+      {isAddModalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+          <div className="bg-white rounded-lg shadow-lg p-6 w-1/2">
+            <AddNewProduct onClose={handleCloseAddModal} />
+          </div>
+        </div>
+      )}
+
+      {/* Edit Product Modal */}
+      {isEditModalOpen && selectedProduct && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+          <div className="bg-white rounded-lg shadow-lg p-6 w-1/2">
+            <EditNewProduct
+              product={selectedProduct}
+              onClose={handleCloseEditModal}
+            />
+          </div>
+        </div>
+      )}
     </div>
   );
 };

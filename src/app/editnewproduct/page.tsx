@@ -2,16 +2,23 @@
 
 import React, { useState } from "react";
 
-interface AddNewProductProps {
+interface EditNewProductProps {
+  product: {
+    id: number;
+    name: string;
+    price: string;
+    description: string;
+    quantity: number;
+  };
   onClose: () => void; // Function to close the modal
 }
 
-const AddNewProduct: React.FC<AddNewProductProps> = ({ onClose }) => {
+const EditNewProduct: React.FC<EditNewProductProps> = ({ product, onClose }) => {
   const [formData, setFormData] = useState({
-    productName: "",
-    price: "",
-    quantity: "",
-    description: "",
+    productName: product.name,
+    price: product.price,
+    quantity: product.quantity.toString(),
+    description: product.description,
   });
 
   const [image, setImage] = useState<File | null>(null);
@@ -32,11 +39,11 @@ const AddNewProduct: React.FC<AddNewProductProps> = ({ onClose }) => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("New Product Data:", formData);
-    console.log("Uploaded Image:", image);
+    console.log("Updated Data:", formData);
+    console.log("Updated Image:", image);
 
-    // Example: Add API call to save the product
-    alert("Product added successfully!");
+    // Example: Add API call to update the product
+    alert("Product updated successfully!");
     onClose(); // Close the modal
   };
 
@@ -69,7 +76,7 @@ const AddNewProduct: React.FC<AddNewProductProps> = ({ onClose }) => {
                     onChange={handleImageChange}
                   />
                   <span className="bg-[#006d5b] text-white px-4 py-2 rounded-md">
-                    Add Image
+                    Change Image
                   </span>
                 </label>
               )}
@@ -86,7 +93,6 @@ const AddNewProduct: React.FC<AddNewProductProps> = ({ onClose }) => {
                 value={formData.productName}
                 onChange={handleChange}
                 className="w-full bg-transparent border-b-2 border-gray-400 text-gray-800 placeholder-gray-500 focus:outline-none"
-                placeholder="Enter product name"
                 required
               />
             </div>
@@ -98,7 +104,6 @@ const AddNewProduct: React.FC<AddNewProductProps> = ({ onClose }) => {
                 value={formData.price}
                 onChange={handleChange}
                 className="w-full bg-transparent border-b-2 border-gray-400 text-gray-800 placeholder-gray-500 focus:outline-none"
-                placeholder="Enter product price"
                 required
               />
             </div>
@@ -110,7 +115,6 @@ const AddNewProduct: React.FC<AddNewProductProps> = ({ onClose }) => {
                 value={formData.quantity}
                 onChange={handleChange}
                 className="w-full bg-transparent border-b-2 border-gray-400 text-gray-800 placeholder-gray-500 focus:outline-none"
-                placeholder="Enter product quantity"
                 required
               />
             </div>
@@ -121,7 +125,6 @@ const AddNewProduct: React.FC<AddNewProductProps> = ({ onClose }) => {
                 value={formData.description}
                 onChange={handleChange}
                 className="w-full bg-transparent border-b-2 border-gray-400 text-gray-800 placeholder-gray-500 focus:outline-none"
-                placeholder="Enter product description"
                 required
               ></textarea>
             </div>
@@ -138,4 +141,4 @@ const AddNewProduct: React.FC<AddNewProductProps> = ({ onClose }) => {
   );
 };
 
-export default AddNewProduct;
+export default EditNewProduct;
