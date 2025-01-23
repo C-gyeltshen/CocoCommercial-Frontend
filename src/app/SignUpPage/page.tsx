@@ -131,16 +131,16 @@ const SignupPage: React.FC = () => {
                   value={formData.fullName}
                   onChange={handleChange}
                 />
-                <select
+                {/* <select
                   name="gender"
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-400"
                   value={formData.gender}
                   onChange={handleChange}
-                >
-                  <option value="">Gender</option>
+                > */}
+                  {/* <option value="">Gender</option>
                   <option value="male">Male</option>
-                  <option value="female">Female</option>
-                </select>
+                  <option value="female">Female</option> */}
+                {/* </select> */}
                 <input
                   type="email"
                   name="email"

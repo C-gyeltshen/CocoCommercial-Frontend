@@ -6,6 +6,7 @@ import Footer from "@/components/ui/Footer";
 import { Input } from "@/components/ui/input";
 import Navbar from "@/components/ui/Navbar";
 
+
 const SignupPage = () => {
   const [userType, setUserType] = useState("");
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
