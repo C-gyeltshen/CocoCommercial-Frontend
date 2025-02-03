@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -9,7 +9,12 @@ import FileUpload from "@/components/ui/FileUpload";
 import Footer from "@/components/ui/Footer";
 import Navbar from "@/components/ui/Navbar";
 
+
 const SignupPage: React.FC = () => {
+  const [dzongkhags, setDzongkhags] = useState([]);
+  const [gewogs, setGewogs] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
   const [formData, setFormData] = useState({
     fullName: "",
     gender: "",
@@ -23,6 +28,58 @@ const SignupPage: React.FC = () => {
 
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  // Fetch Dzongkhags on component mount
+  useEffect(() => {
+    const fetchDzongkhags = async () => {
+      try {
+        const response = await fetch("http://localhost:8080/masterData/get/dzongkhags");
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const data = await response.json();
+        console.log("Dzongkhags API Response:", data); // Debug log
+  
+        // Extract the dzongkhags array from the response
+        if (data.dzongkhags && Array.isArray(data.dzongkhags)) {
+          setDzongkhags(data.dzongkhags);
+        } else {
+          throw new Error("Invalid response format: dzongkhags key missing or not an array");
+        }
+      } catch (err: any) {
+        console.error(err.message);
+        setError(err.message || "Failed to load Dzongkhags.");
+      } finally {
+        setLoading(false);
+      }
+    };
+  
+    fetchDzongkhags();
+  }, []);
+
+  // Fetch Gewogs based on selected Dzongkhag
+  useEffect(() => {
+    if (formData.dzongkhag) {
+      const fetchGewogs = async () => {
+        try {
+          const response = await fetch(
+            `http://localhost:8080/masterData/get/gewogs/${formData.dzongkhag}`
+          );
+          console.log(formData.dzongkhag)
+          if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+          }
+          const data = await response.json();
+          // console.log("Gewog data :", data)
+          setGewogs(data);
+        } catch (err: any) {
+          setError(err.message || "Failed to load Gewogs.");
+        }
+      };
+  
+      fetchGewogs();
+    }
+  }, [formData.dzongkhag]);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -50,7 +107,7 @@ const SignupPage: React.FC = () => {
       newErrors.contactNumber = "Contact number is required.";
     if (!formData.dzongkhag) newErrors.dzongkhag = "Dzongkhag is required.";
     if (!formData.gewog) newErrors.gewog = "Gewog is required.";
-    if (!formData.village) newErrors.village = "Village is required.";
+    if (!formData.village.trim()) newErrors.village = "Village is required.";
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -131,16 +188,9 @@ const SignupPage: React.FC = () => {
                   value={formData.fullName}
                   onChange={handleChange}
                 />
-                {/* <select
-                  name="gender"
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-400"
-                  value={formData.gender}
-                  onChange={handleChange}
-                > */}
-                  {/* <option value="">Gender</option>
-                  <option value="male">Male</option>
-                  <option value="female">Female</option> */}
-                {/* </select> */}
+                {errors.fullName && (
+                  <p className="text-red-500 text-sm mt-1">{errors.fullName}</p>
+                )}
                 <input
                   type="email"
                   name="email"
@@ -149,6 +199,9 @@ const SignupPage: React.FC = () => {
                   value={formData.email}
                   onChange={handleChange}
                 />
+                {errors.email && (
+                  <p className="text-red-500 text-sm mt-1">{errors.email}</p>
+                )}
                 <input
                   type="text"
                   name="contactNumber"
@@ -157,6 +210,11 @@ const SignupPage: React.FC = () => {
                   value={formData.contactNumber}
                   onChange={handleChange}
                 />
+                {errors.contactNumber && (
+                  <p className="text-red-500 text-sm mt-1">
+                    {errors.contactNumber}
+                  </p>
+                )}
               </div>
               {/* Location Fields */}
               <div>
@@ -170,15 +228,34 @@ const SignupPage: React.FC = () => {
                   onChange={handleChange}
                 >
                   <option value="">Dzongkhag</option>
+                  {dzongkhags.map((dzongkhag: any) => (
+                    <option key={dzongkhag.id} value={dzongkhag.id}>
+                      {dzongkhag.name}
+                    </option>
+                  ))}
                 </select>
+                {errors.dzongkhag && (
+                  <p className="text-red-500 text-sm mt-1">
+                    {errors.dzongkhag}
+                  </p>
+                )}
                 <select
                   name="gewog"
                   className="w-full px-4 py-2 mb-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-400"
                   value={formData.gewog}
                   onChange={handleChange}
+                  disabled={!gewogs.length}
                 >
                   <option value="">Gewog</option>
+                  {Array.isArray(gewogs) && gewogs.map((gewog: any) => (
+                    <option key={gewog.id} value={gewog.name}>
+                      {gewog.name}
+                    </option>
+                  ))}
                 </select>
+                {errors.gewog && (
+                  <p className="text-red-500 text-sm mt-1">{errors.gewog}</p>
+                )}
               </div>
               {/* File Upload */}
               <div>
@@ -187,18 +264,16 @@ const SignupPage: React.FC = () => {
                 </h4>
                 <FileUpload onFileUpload={handleFileUpload} />
               </div>
-              {/* Submit Button */}
               <button
                 type="submit"
-                className="w-full bg-orange-400 text-white py-2 rounded-lg font-medium hover:bg-orange-500 focus:outline-none focus:ring-2 focus:ring-orange-400"
+                className="w-full bg-[#ED7014] text-white font-bold text-lg py-2 px-4 rounded-lg hover:bg-orange-500 transition"
               >
-                Submit
+                Sign Up
               </button>
             </form>
           </div>
         </div>
       </div>
-      {/* Footer Section */}
       <Footer />
     </div>
   );
