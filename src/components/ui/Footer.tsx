@@ -1,5 +1,6 @@
 import React from "react";
-import { FaFacebook, FaTwitter, FaLinkedin, FaPhone, FaEnvelope, FaMapMarkerAlt } from "react-icons/fa";
+import { FaFacebook, FaTwitter, FaLinkedin, FaInstagram, FaPhone, FaEnvelope, FaMapMarkerAlt } from "react-icons/fa";
+import Link from "next/link";
 
 const Footer: React.FC = () => {
   return (
@@ -23,8 +24,16 @@ const Footer: React.FC = () => {
         <div>
           <h3 className="font-serif text-xl mb-5 text-white">Quick Links</h3>
           <ul className="space-y-2 text-gray-300">
-            <li className="hover:text-white cursor-pointer">Home</li>
-            <li className="hover:text-white cursor-pointer">About Us</li>
+            <li className="hover:text-white cursor-pointer">
+              <Link href="/" passHref>
+                Home
+              </Link>
+            </li>
+            <li className="hover:text-white cursor-pointer">
+              <Link href="/#about" passHref>
+                About Us
+              </Link>
+            </li>
           </ul>
         </div>
 
@@ -49,6 +58,7 @@ const Footer: React.FC = () => {
             <FaFacebook className="text-white hover:text-gray-300 cursor-pointer text-xl" />
             <FaTwitter className="text-white hover:text-gray-300 cursor-pointer text-xl" />
             <FaLinkedin className="text-white hover:text-gray-300 cursor-pointer text-xl" />
+            <FaInstagram className="text-white hover:text-gray-300 cursor-pointer text-xl" /> {/* New Icon */}
           </div>
         </div>
       </div>
@@ -61,24 +71,27 @@ const Footer: React.FC = () => {
               © 2024 Coco Commercial. All rights reserved.
             </p>
             <div className="flex space-x-4 text-gray-300">
-              <a
+              <Link
                 href="/privacy-policy"
                 className="hover:text-white hover:underline"
+                passHref
               >
                 Privacy Policy
-              </a>
-              <a
+              </Link>
+              <Link
                 href="/terms-and-conditions"
                 className="hover:text-white hover:underline"
+                passHref
               >
                 Terms & Conditions
-              </a>
-              <a
+              </Link>
+              <Link
                 href="/faq"
                 className="hover:text-white hover:underline"
+                passHref
               >
                 FAQ
-              </a>
+              </Link>
             </div>
           </div>
         </div>

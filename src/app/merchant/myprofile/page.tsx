@@ -212,7 +212,7 @@ const Profile = () => {
             <CardContent className="p-6">
               <h3 className="text-xl font-serif text-[#2C3E50] mb-6 flex items-center">
                 <ShieldCheck className="mr-2" /> Security Settings
-              </h3>
+              </h3> 
               <div className="space-y-4">
                 <div className="flex items-center space-x-4">
                   <Lock className="text-gray-400" />
