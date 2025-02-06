@@ -14,7 +14,7 @@ const ProductCreation5: React.FC = () => {
 
   const handleSubmit = () => {
     alert("Product successfully submitted!");
-    router.push("/"); 
+    router.push("/");   
   };
 
   return (
