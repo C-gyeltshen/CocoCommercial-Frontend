@@ -65,13 +65,12 @@ const SignupPage: React.FC = () => {
           const response = await fetch(
             `http://localhost:8080/masterData/get/gewogs/${formData.dzongkhag}`
           );
-          console.log(formData.dzongkhag)
           if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
           }
           const data = await response.json();
-          // console.log("Gewog data :", data)
-          setGewogs(data);
+          console.log("Gewog data :", data)
+          setGewogs(data.gewogs);
         } catch (err: any) {
           setError(err.message || "Failed to load Gewogs.");
         }
@@ -239,16 +238,10 @@ const SignupPage: React.FC = () => {
                     {errors.dzongkhag}
                   </p>
                 )}
-                <select
-                  name="gewog"
-                  className="w-full px-4 py-2 mb-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-400"
-                  value={formData.gewog}
-                  onChange={handleChange}
-                  disabled={!gewogs.length}
-                >
+                <select name="gewog" value={formData.gewog} onChange={handleChange} className="w-full px-4 py-2 border rounded">
                   <option value="">Gewog</option>
-                  {Array.isArray(gewogs) && gewogs.map((gewog: any) => (
-                    <option key={gewog.id} value={gewog.name}>
+                  {gewogs.map((gewog: any, index: number) => (
+                    <option key={gewog.id || index} value={gewog.name}>
                       {gewog.name}
                     </option>
                   ))}
