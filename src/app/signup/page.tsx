@@ -175,11 +175,13 @@ const SignupPage = () => {
             </h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-lg mx-auto">
               <button
-                onClick={() => handleRoleChange("merchant")}
+                onClick={() => router.push('/shopcreation')}
+                // onClick={() => handleRoleChange("merchant")}
                 className={`p-6 rounded-lg border-2 transition-all duration-300 ${
                   userType === "merchant"
                     ? "border-[#1B4965] bg-blue-50"
                     : "border-gray-200 hover:border-[#1B4965]"
+                
                 }`}
               >
                 <h3 className="font-serif text-lg mb-2">

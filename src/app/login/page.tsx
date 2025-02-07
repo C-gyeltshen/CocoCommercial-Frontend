@@ -37,7 +37,7 @@ const LoginPage = () => {
         <div className="max-w-md mx-auto">
           <div className="text-center mb-8">
             <Image
-              src="/logo.png"
+              src="/cocologo.png"
               alt="Coco Commercial Logo"
               width={80}
               height={80}

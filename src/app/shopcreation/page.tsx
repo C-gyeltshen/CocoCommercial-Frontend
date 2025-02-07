@@ -1,68 +1,133 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Select from 'react-select';
 import ProgressBar from '@/components/ui/progressbar';
 import Navbar from '@/components/ui/Navbar';
 import Footer from '@/components/ui/Footer';
+import { useRouter } from 'next/navigation';
 
-const dzongkhagOptions = [
-  { 
-    value: 'thimphu', 
-    label: 'Thimphu', 
-    gewogs: [{ value: 'chang', label: 'Chang' }, { value: 'kawang', label: 'Kawang' }] 
-  },
-  { 
-    value: 'paro', 
-    label: 'Paro', 
-    gewogs: [{ value: 'dopshari', label: 'Dopshari' }, { value: 'wangchang', label: 'Wangchang' }] 
-  },
-];
+// Type definitions for dropdown options
+type OptionType = {
+  value: string;
+  label: string;
+};
 
 const HomePage = () => {
-  const [storeName, setStoreName] = useState('');
-  const [storeDescription, setStoreDescription] = useState('');
-  const [selectedDzongkhag, setSelectedDzongkhag] = useState(null);
-  const [gewogOptions, setGewogOptions] = useState([]);
-  const [selectedGewog, setSelectedGewog] = useState(null);
-  const [storeImage, setStoreImage] = useState(null);
-  const [imageError, setImageError] = useState('');
+  const router = useRouter();
+
+  // State variables
+  const [storeData, setStoreData] = useState({
+    storeName: '',
+    storeDescription: '',
+    storeDzongkhag: '',
+    storeGewog: '',
+  });
+
+  const [dzongkhags, setDzongkhags] = useState<OptionType[]>([]);
+  const [gewogs, setGewogs] = useState<OptionType[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
   const [currentStep, setCurrentStep] = useState(1);
-  const totalSteps = 4;
+  const totalSteps = 3;
 
-  const handleDzongkhagChange = (option) => {
-    setSelectedDzongkhag(option);
-    setGewogOptions(option ? option.gewogs : []);
-    setSelectedGewog(null);
-  };
+  // Fetch Dzongkhags from API on mount
+  useEffect(() => {
+    const fetchDzongkhags = async () => {
+      try {
+        const response = await fetch('http://localhost:8080/masterData/get/dzongkhags');
+        if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
 
-  const handleGewogChange = (option) => {
-    setSelectedGewog(option);
-  };
-
-  const handleImageUpload = (event) => {
-    const file = event.target.files[0];
-    if (file) {
-      if (file.size > 5 * 1024 * 1024) { // Limit to 5MB
-        setImageError('File size exceeds 5MB. Please upload a smaller file.');
-        setStoreImage(null);
-      } else {
-        setImageError('');
-        setStoreImage(file);
+        const data = await response.json();
+        if (Array.isArray(data.dzongkhags)) {
+          setDzongkhags(
+            data.dzongkhags.map((dz: { id: { toString: () => any; }; name: any; }) => ({
+              value: dz.id.toString(), // Ensure string type
+              label: dz.name,
+            }))
+          );
+        } else {
+          throw new Error('Invalid response format');
+        }
+      } catch (err: unknown) {
+        setError(err instanceof Error ? err.message : 'Failed to load Dzongkhags.');
+      } finally {
+        setLoading(false);
       }
+    };
+    fetchDzongkhags();
+  }, []);
+
+  useEffect(() => {
+    if (storeData.storeDzongkhag) {
+      const fetchGewogs = async () => {
+        try {
+          const response = await fetch(`http://localhost:8080/masterData/get/gewogs/${storeData.storeDzongkhag}`);
+          if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
+  
+          const data = await response.json();
+          console.log("Gewog data:", data);
+  
+          if (Array.isArray(data.gewogs)) {
+            setGewogs(
+              data.gewogs.map((g: { name: any; }, index: { toString: () => any; }) => ({
+                value: index.toString(), // Using index as a temporary ID
+                label: g.name,
+              }))
+            );
+          } else {
+            throw new Error('Invalid response format');
+          }
+        } catch (err: unknown) {
+          setError(err instanceof Error ? err.message : 'Failed to load Gewogs.');
+        }
+      };
+      fetchGewogs();
+    } else {
+      setGewogs([]);
     }
+  }, [storeData.storeDzongkhag]);
+  
+  useEffect(() => {
+    const storedData = localStorage.getItem('storeData');
+    if (storedData) {
+      setStoreData(JSON.parse(storedData));
+    }
+  }, []);
+
+  // Handle Dzongkhag selection
+  const handleDzongkhagChange = (option: OptionType | null) => {
+    setStoreData((prev) => ({
+      ...prev,
+      storeDzongkhag: option?.value || '',
+      storeGewog: '', // Reset gewog when dzongkhag changes
+    }));
   };
 
-  const handleNextStep = (event) => {
+  // Handle Gewog selection
+  const handleGewogChange = (option: OptionType | null) => {
+    console.log('Gewog selected:', option?.label);
+    setStoreData((prev) => ({
+      ...prev,
+      storeGewog: option?.value || '',
+    }));
+  };
+
+  // Handle form submission at the final step
+  const handleNextStep = (event: React.FormEvent) => {
     event.preventDefault();
-    if (currentStep < totalSteps) {
-      setCurrentStep(currentStep + 1);
-    }
-  };
 
-  const handlePreviousStep = () => {
-    if (currentStep > 1) {
-      setCurrentStep(currentStep - 1);
+    // Validation check before going to the next step
+    if (currentStep === 3 && (!storeData.storeDzongkhag || !storeData.storeGewog)) {
+      alert('Please select both Dzongkhag and Gewog before proceeding.');
+      return;
+    }
+
+    if (currentStep === totalSteps) {
+      sessionStorage.setItem('storeData', JSON.stringify(storeData));
+      router.push('/SignUpPage');
+    } else {
+      setCurrentStep((prev) => prev + 1);
     }
   };
 
@@ -71,79 +136,59 @@ const HomePage = () => {
       <Navbar />
       <main className="flex-grow container mx-auto px-4 py-8">
         <div className="max-w-4xl mx-auto">
-          {/* Progress Bar */}
           <div className="sticky top-0 z-10 bg-white py-2">
             <ProgressBar currentStep={currentStep} totalSteps={totalSteps} />
           </div>
 
-          {/* Content Section */}
           <div className="mt-6 bg-white p-6 rounded-lg shadow-lg w-full max-w-lg mx-auto">
             <h1 className="text-2xl font-serif text-[#1B4965] mb-5">
               {currentStep === 1
                 ? 'What is the name of your business?'
                 : currentStep === 2
                 ? 'Describe Your Business'
-                : currentStep === 3
-                ? 'Where is Your Business Located?'
-                : 'Add a Logo or Image for Your Business'}
+                : 'Where is Your Business Located?'}
             </h1>
-            <p className="mb-5 text-gray-600">
-              {currentStep === 1
-                ? 'Enter your store name below.'
-                : currentStep === 2
-                ? 'Provide a brief description of your business.'
-                : currentStep === 3
-                ? 'Select your Dzongkhag and Gewog.'
-                : 'Upload a logo or any image that represents your business.'}
-            </p>
 
             <form onSubmit={handleNextStep} className="space-y-4">
               {currentStep === 1 && (
                 <input
                   type="text"
-                  value={storeName}
-                  onChange={(e) => setStoreName(e.target.value)}
+                  value={storeData.storeName}
+                  onChange={(e) => setStoreData({ ...storeData, storeName: e.target.value })}
                   placeholder="Store Name"
-                  className="w-full p-3 border border-gray-300 rounded text-gray-600 focus:ring-2 focus:ring-[#1B4965] focus:outline-none"
+                  className="w-full p-3 border border-gray-300 rounded focus:ring-2 focus:ring-[#1B4965] focus:outline-none"
+                  required
                 />
               )}
               {currentStep === 2 && (
                 <input
                   type="text"
-                  value={storeDescription}
-                  onChange={(e) => setStoreDescription(e.target.value)}
+                  value={storeData.storeDescription}
+                  onChange={(e) => setStoreData({ ...storeData, storeDescription: e.target.value })}
                   placeholder="Business Description"
-                  className="w-full p-3 border border-gray-300 rounded text-gray-600 focus:ring-2 focus:ring-[#1B4965] focus:outline-none"
+                  className="w-full p-3 border border-gray-300 rounded focus:ring-2 focus:ring-[#1B4965] focus:outline-none"
+                  required
                 />
               )}
               {currentStep === 3 && (
                 <>
                   <Select
-                    value={selectedDzongkhag}
+                    value={dzongkhags.find((d) => d.value === storeData.storeDzongkhag) || null}
                     onChange={handleDzongkhagChange}
-                    options={dzongkhagOptions}
-                    placeholder="Dzongkhag"
+                    options={dzongkhags}
+                    placeholder="Select Dzongkhag"
                     className="w-full mb-5"
+                    isLoading={loading}
+                    isDisabled={loading}
                   />
                   <Select
-                    value={selectedGewog}
+                    value={gewogs.find((g) => g.value === storeData.storeGewog) || null}
                     onChange={handleGewogChange}
-                    options={gewogOptions}
-                    placeholder="Gewog"
+                    options={gewogs}
+                    placeholder="Select Gewog"
                     className="w-full"
-                    isDisabled={!selectedDzongkhag}
+                    isDisabled={!storeData.storeDzongkhag}
                   />
-                </>
-              )}
-              {currentStep === 4 && (
-                <>
-                  <input
-                    type="file"
-                    onChange={handleImageUpload}
-                    className="w-full p-3 border border-gray-300 rounded text-gray-600 focus:ring-2 focus:ring-[#1B4965] focus:outline-none"
-                  />
-                  {imageError && <p className="text-red-500 text-sm">{imageError}</p>}
-                  {storeImage && <p className="text-green-500 text-sm">File selected: {storeImage.name}</p>}
                 </>
               )}
 
@@ -151,16 +196,13 @@ const HomePage = () => {
                 {currentStep > 1 && (
                   <button
                     type="button"
-                    onClick={handlePreviousStep}
-                    className="px-6 py-3 bg-gray-300 text-gray-700 rounded hover:bg-gray-400 transition-all duration-300"
+                    onClick={() => setCurrentStep((prev) => prev - 1)}
+                    className="px-6 py-3 bg-gray-300 text-gray-700 rounded"
                   >
                     Back
                   </button>
                 )}
-                <button
-                  type="submit"
-                  className="px-6 py-3 bg-[#1B4965] text-white rounded hover:bg-orange-400 transition-all duration-300"
-                >
+                <button type="submit" className="px-6 py-3 bg-[#1B4965] text-white rounded">
                   {currentStep === totalSteps ? 'Finish' : 'Next'}
                 </button>
               </div>
