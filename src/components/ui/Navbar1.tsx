@@ -68,7 +68,7 @@ const merchantNavbar = () => {
           {/* Right side - Profile */}
           <div className="hidden md:block">
             <Link
-              href="/profile"
+              href="/customerprofile"
               className={`
                 flex items-center space-x-2 px-6 py-2 rounded-md
                 transition-all duration-300 hover:bg-orange-400

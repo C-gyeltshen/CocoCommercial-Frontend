@@ -87,7 +87,6 @@ const HomePage = () => {
       setGewogs([]);
     }
   }, [storeData.storeDzongkhag]);
-  
   useEffect(() => {
     const storedData = localStorage.getItem('storeData');
     if (storedData) {
@@ -125,6 +124,7 @@ const HomePage = () => {
 
     if (currentStep === totalSteps) {
       sessionStorage.setItem('storeData', JSON.stringify(storeData));
+      // localStorage.setItem('storeData', JSON.stringify(storeData)); 
       router.push('/SignUpPage');
     } else {
       setCurrentStep((prev) => prev + 1);

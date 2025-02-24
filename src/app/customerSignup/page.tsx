@@ -93,25 +93,8 @@ const SignupPage: React.FC = () => {
         formDataToSend.append("dzongkhag", formData.dzongkhag);
         formDataToSend.append("gewog", formData.gewog);
     
-        // Retrieve store data from sessionStorage
-        const storeName = sessionStorage.getItem("storeName");
-        console.log("store name :", storeName)
-
-        const storeDescription = sessionStorage.getItem("storeDescription");
-        const storeDzongkhag = sessionStorage.getItem("storeDzongkhag");
-        const storeGewog = sessionStorage.getItem("storeGewog");
-
-        console.log(storeName, storeDescription, storeDzongkhag, storeGewog);
-    
-        // Append the store data to the FormData object if available
-        if (storeName) formDataToSend.append("storeName", storeName);
-        if (storeDescription) formDataToSend.append("storeDescription", storeDescription);
-        if (storeDzongkhag) formDataToSend.append("storeDzongkhag", storeDzongkhag);
-        if (storeGewog) formDataToSend.append("storeGewog", storeGewog);
-    
         try {
-    
-            const response = await fetch("http://localhost:8080/auth/merchant/signup", {
+            const response = await fetch("http://localhost:8080/customer/create/customer", {
                 method: "POST",
                 body: formDataToSend,
             });
@@ -120,7 +103,6 @@ const SignupPage: React.FC = () => {
                 console.log(`${key}: ${value}`);
             }
 
-    
             if (!response.ok) {
                 throw new Error("Signup failed. Please try again.");
             }
@@ -172,7 +154,7 @@ const SignupPage: React.FC = () => {
 
                     <div className="bg-white p-6 shadow-lg rounded-lg max-w-sm mx-auto">
                         <form onSubmit={handleSubmit} className="space-y-6">
-                            <h3 className="text-2xl font-bold text-center">Sign up (Merchants)</h3>
+                            <h3 className="text-2xl font-bold text-center">Sign up (Customer)</h3>
                             <input
                                 type="text"
                                 name="fullName"
