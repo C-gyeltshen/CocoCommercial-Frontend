@@ -218,12 +218,6 @@ const HomePage = () => {
         throw new Error(`Upload error: ${error.message}`);
       }
 
-      // Generate public URL for the uploaded file
-      // const { data: urlData } = supabase
-      //   .storage
-      //   .from('avatars')
-      //   .getPublicUrl(fileName);
-
       setUploadProgress(100);
       // return urlData.publicUrl;
     } catch (error) {
