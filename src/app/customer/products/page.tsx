@@ -107,6 +107,17 @@ const mockProducts: Product[] = [
     storeName: 'Coco Naturals',
     available: true,
   },
+  {
+    id: '9',
+    name: 'Coconut Soap',
+    price: 75,
+    description: 'Moisturizing coconut soap for soft skin',
+    imageUrl: '/products/coconut-soap.jpg',
+    category: 'personal care',
+    storeId: 'store1',
+    storeName: 'Coco Naturals',
+    available: true,
+  },
 ];
 
 export default function ProductListing() {
