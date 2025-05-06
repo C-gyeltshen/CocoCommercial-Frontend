@@ -84,7 +84,6 @@ const ProductDetail = () => {
       image: product.image
     };
 
-    // Check if item already exists in cart
     const existingItemIndex = cartItems.findIndex(
       item => item.id === newItem.id
     );
