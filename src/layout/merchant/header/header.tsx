@@ -1,140 +1,106 @@
 "use client";
 
 import React, { useState } from "react";
+import { Menu, X, ShoppingBag, ClipboardList, Store, User } from "lucide-react";
 import Image from "next/image";
-import { ShoppingBag, ClipboardList, Store, Menu } from "lucide-react";
-import { useRouter } from "next/navigation";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 
-const Header = () => {
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const router = useRouter();
+const Header: React.FC = () => {
+  const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
+  const pathname = usePathname();
+
+  const isActive = (href: string) => pathname === href;
+
+  const centerNavItems = [
+    { href: "/merchant/orderListing", label: "Orders", icon: ShoppingBag },
+    { href: "/merchant/productListing", label: "Products", icon: ClipboardList },
+    { href: "/merchant/mystore", label: "My Store", icon: Store },
+  ];
+
+  const profileNavItem = { href: "/merchant/profile", label: "My Profile", icon: User };
 
   return (
-    <nav className="sticky top-0 z-50 bg-[#1B4965] shadow-md">
-      <div className="container mx-auto px-4">
+    <nav className="sticky top-0 z-50 bg-[#1B4965] shadow-md transition-all duration-300">
+      <div className="container mx-auto px-6">
         <div className="flex items-center justify-between h-16">
-          {/* Mobile menu button */}
-          <button
-            className="lg:hidden text-white p-2"
-            type="button"
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-          >
-            <Menu className="h-6 w-6" />
-          </button>
-
-          {/* Logo & Search Bar */}
-          <div className="flex items-center flex-1 lg:flex-initial">
-            <Image
-                onClick={() => router.push('/merchant/dashboard')}
+          {/* Logo Section */}
+          <div className="flex items-center">
+            <Link href="/merchant/dashboard">
+              <Image
                 src="/cocologo.png"
                 alt="Coco Commercial Logo"
                 width={50}
                 height={50}
                 className="sm:mr-8"
-            />
-            <div className="ml-4 sm:ml-8 w-full max-w-xs sm:max-w-md lg:max-w-xl">
-              <input
-                type="search"
-                placeholder="Search..."
-                className="w-full pl-4 pr-8 py-2 text-sm rounded-full bg-white/10 border border-white/20 text-white placeholder:text-white/70 focus:outline-none focus:ring-2 focus:ring-orange-400"
               />
+            </Link>
+          </div>
+
+          {/* Center Navigation (Desktop) */}
+          <div className="hidden md:flex items-center justify-center flex-1">
+            <div className="flex space-x-8">
+              {centerNavItems.map((item) => (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className={`flex items-center space-x-2 text-white px-6 py-2 rounded-md transition-all duration-300 hover:bg-orange-400 ${
+                    isActive(item.href) ? "bg-orange-400" : ""
+                  }`}
+                  aria-label={`Go to ${item.label}`}
+                >
+                  <item.icon size={20} className="text-white" />
+                  <span>{item.label}</span>
+                </Link>
+              ))}
             </div>
           </div>
 
-          {/* Desktop navigation */}
-          <div className="hidden lg:flex items-center space-x-8">
-            <button
-              className="text-white hover:text-orange-400 transition-colors duration-300 flex flex-col items-center"
-              type="button"
-              title="Orders"
-              onClick={() => router.push("/merchant/orderListing")}
+          {/* Profile Section (Right End, Desktop) */}
+          <div className="hidden md:flex items-center">
+            <Link
+              href={profileNavItem.href}
+              className={`flex items-center space-x-2 text-white px-6 py-2 rounded-md transition-all duration-300 hover:bg-orange-400 ${
+                isActive(profileNavItem.href) ? "bg-orange-400" : ""
+              }`}
+              aria-label={`Go to ${profileNavItem.label}`}
             >
-              <ShoppingBag className="h-6 w-6" />
-              <span>Orders</span>
-            </button>
-            <button
-              className="text-white hover:text-orange-400 transition-colors duration-300 flex flex-col items-center"
-              type="button"
-              title="Products"
-              onClick={() => router.push("/merchant/productListing")}
-            >
-              <ClipboardList className="h-6 w-6" />
-              <span>Products</span>
-            </button>
-            <button
-              className="text-white hover:text-orange-400 transition-colors duration-300 flex flex-col items-center"
-              type="button"
-              title="My Store"
-              onClick={() => router.push("/merchant/store")}
-            >
-              <Store className="h-6 w-6" />
-              <span>My Store</span>
-            </button>
+              <profileNavItem.icon size={20} className="text-white" />
+              <span>{profileNavItem.label}</span>
+            </Link>
+          </div>
 
-            {/* Profile Section */}
-            <div className="flex items-center space-x-3 ml-4">
-              <Image
-                src="/api/placeholder/32/32"
-                alt="Profile"
-                width={32}
-                height={32}
-                className="h-8 w-8 rounded-full border-2 border-white/20"
-              />
-              <button
-                className="text-white font-serif"
-                type="button"
-                onClick={() => router.push("/merchant/profile")}
-              >
-                My Profile
-              </button>
-            </div>
+          {/* Mobile Menu Button */}
+          <div className="md:hidden">
+            <button
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+              className="text-white p-2"
+              aria-label={isMenuOpen ? "Close menu" : "Open menu"}
+              type="button"
+            >
+              {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
+            </button>
           </div>
         </div>
 
-        {/* Mobile menu */}
-        {isMobileMenuOpen && (
-          <div className="lg:hidden py-4 border-t border-white/10">
+        {/* Mobile Menu */}
+        {isMenuOpen && (
+          <div className="md:hidden pb-4">
             <div className="flex flex-col space-y-4">
-              <button
-                className="text-white hover:text-orange-400 transition-colors duration-300 flex items-center space-x-2"
-                type="button"
-                onClick={() => router.push("/merchant/orderListing")}
-              >
-                <ShoppingBag className="h-6 w-6" />
-                <span>Orders</span>
-              </button>
-              <button
-                className="text-white hover:text-orange-400 transition-colors duration-300 flex items-center space-x-2"
-                type="button"
-                onClick={() => router.push("/merchant/productListing")}
-              >
-                <ClipboardList className="h-6 w-6" />
-                <span>Products</span>
-              </button>
-              <button
-                className="text-white hover:text-orange-400 transition-colors duration-300 flex items-center space-x-2"
-                type="button"
-                onClick={() => router.push("/merchant/store")}
-              >
-                <Store className="h-6 w-6" />
-                <span>My Store</span>
-              </button>
-              <div className="flex items-center space-x-3">
-                <Image
-                  src="/api/placeholder/32/32"
-                  alt="Profile"
-                  width={32}
-                  height={32}
-                  className="h-8 w-8 rounded-full border-2 border-white/20"
-                />
-                <button
-                  className="text-white font-serif"
-                  type="button"
-                  onClick={() => router.push("/merchant/profile")}
+              {[profileNavItem, ...centerNavItems].map((item) => (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className={`flex items-center space-x-2 text-white px-6 py-2 transition-all duration-300 hover:bg-orange-400 ${
+                    isActive(item.href) ? "bg-orange-400" : ""
+                  }`}
+                  aria-label={`Go to ${item.label}`}
+                  onClick={() => setIsMenuOpen(false)}
                 >
-                  My Profile
-                </button>
-              </div>
+                  <item.icon size={20} className="text-white" />
+                  <span>{item.label}</span>
+                </Link>
+              ))}
             </div>
           </div>
         )}
