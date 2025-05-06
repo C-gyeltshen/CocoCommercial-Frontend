@@ -6,7 +6,6 @@ import { Button } from "@/components/ui/button";
 import { ShoppingCart, X, Plus, Minus, ShoppingBag } from "lucide-react";
 
 const ProductDetail = () => {
-  // Product data (same as your original code)
   const product = {
     id: "HR1325ROC-8",
     name: "Shoes Reebok Zig Kinetica 3",
@@ -19,7 +18,6 @@ const ProductDetail = () => {
     description: "The Reebok Zig Kinetica 3 delivers responsive cushioning and street-ready style. The innovative Zig Energy System combines three distinct technologies for cushioning, stability, and energy return."
   };
 
-  // Color and size options (same as your original code)
   const colorOptions = [
     { name: "White", value: "white", image: null },
     { name: "Gray", value: "gray", image: null },
@@ -28,7 +26,6 @@ const ProductDetail = () => {
 
   const sizeOptions = ["40.5", "41", "42", "43", "43.5", "44", "44.5", "45", "46"];
 
-  // Related products data (same as your original code)
   const relatedProducts = [
     {
       id: 1,
@@ -285,7 +282,6 @@ const updateQuantity = (itemId: string, newQuantity: number): void => {
     );
   };
 
-  // Now let's modify the return statement to include our new components and functionality
   return (
     <div className="w-full mx-auto font-sans text-gray-900 bg-white">
       {/* Header */}
