@@ -70,8 +70,8 @@ const HomePage = () => {
           setDzongkhags(
             data.dzongkhags.map(
               (dz: { id: { toString: () => any }; name: any }) => ({
-                value: dz.id.toString(), // Ensure string type
-                label: dz.name,
+                value: dz.id.toString(), // Keep value as ID for API calls
+                label: dz.name, // Label is the name to display
               })
             )
           );
@@ -96,8 +96,18 @@ const HomePage = () => {
       const fetchGewogs = async () => {
         try {
           setLoading(true);
+          
+          // Find the dzongkhag ID from the selected name
+          const selectedDzongkhag = dzongkhags.find(
+            dz => dz.label === storeData.storeDzongkhag
+          );
+          
+          if (!selectedDzongkhag) {
+            throw new Error("Selected dzongkhag not found");
+          }
+          
           const response = await fetch(
-            `http://localhost:8080/masterData/get/gewogs/${storeData.storeDzongkhag}`
+            `http://localhost:8080/masterData/get/gewogs/${selectedDzongkhag.value}`
           );
           if (!response.ok)
             throw new Error(`HTTP error! Status: ${response.status}`);
@@ -108,8 +118,8 @@ const HomePage = () => {
             setGewogs(
               data.gewogs.map(
                 (g: { id?: string; name: string }, index: number) => ({
-                  value: g.id?.toString() || index.toString(), // Use actual ID if available, fall back to index
-                  label: g.name,
+                  value: g.id?.toString() || index.toString(), // Keep value as ID for API calls
+                  label: g.name, // Label is the name to display
                 })
               )
             );
@@ -129,7 +139,8 @@ const HomePage = () => {
     } else {
       setGewogs([]);
     }
-  }, [storeData.storeDzongkhag]);
+  }, [storeData.storeDzongkhag, dzongkhags]);
+  // console.log("store dzongkhag", dzongkhags)
 
   // Load saved data from localStorage on initial render
   useEffect(() => {
@@ -228,16 +239,16 @@ const HomePage = () => {
     }
   };
 
-  // Handle Dzongkhag selection
+  // Handle Dzongkhag selection - UPDATED to store label (name) instead of value (ID)
   const handleDzongkhagChange = (option: OptionType | null) => {
-    handleInputChange("storeDzongkhag", option?.value || "");
+    handleInputChange("storeDzongkhag", option?.label || "");
     // Reset gewog when dzongkhag changes
     handleInputChange("storeGewog", "");
   };
 
-  // Handle Gewog selection
+  // Handle Gewog selection - UPDATED to store label (name) instead of value (ID)
   const handleGewogChange = (option: OptionType | null) => {
-    handleInputChange("storeGewog", option?.value || "");
+    handleInputChange("storeGewog", option?.label || "");
   };
 
   // Validate current step
@@ -409,7 +420,7 @@ const HomePage = () => {
                     <Select
                       value={
                         dzongkhags.find(
-                          (d) => d.value === storeData.storeDzongkhag
+                          (d) => d.label === storeData.storeDzongkhag
                         ) || null
                       }
                       onChange={handleDzongkhagChange}
@@ -431,7 +442,7 @@ const HomePage = () => {
                   <div className="mt-4">
                     <Select
                       value={
-                        gewogs.find((g) => g.value === storeData.storeGewog) ||
+                        gewogs.find((g) => g.label === storeData.storeGewog) ||
                         null
                       }
                       onChange={handleGewogChange}
