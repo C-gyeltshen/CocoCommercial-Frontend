@@ -3,6 +3,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import Image from 'next/image';
 
 interface NavBarProps {
   isAuthorized?: boolean;
@@ -55,23 +56,14 @@ const Navbar: React.FC<NavBarProps> = ({ isAuthorized = false }) => {
       <div className="flex items-center justify-between py-2 px-4 max-w-screen-xl mx-auto">
         {/* Sort Icon */}
         <div className="text-black">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
-            <line x1="3" y1="12" x2="12" y2="12" />
-            <line x1="3" y1="6" x2="9" y2="6" />
-            <line x1="3" y1="18" x2="9" y2="18" />
-            <polyline points="14 9 17 6 20 9" />
-            <polyline points="14 15 17 18 20 15" />
-          </svg>
+        <Image
+            src="/sso-logo.png"
+            alt="SSO Logo"
+            width={70}
+            height={70}
+            className="object-contain"
+            priority
+          />
         </div>
 
         {/* Search Bar - Removed from navbar since it's in the product listing page */}
@@ -79,30 +71,62 @@ const Navbar: React.FC<NavBarProps> = ({ isAuthorized = false }) => {
 
         {/* Desktop Navigation */}
         {!isMobile && (
-          <div className="flex space-x-6">
-            <Link href="/customer/stores" passHref>
-              <span className={`font-medium cursor-pointer ${
-                pathname === '/customer/stores' 
-                  ? 'text-purple-600' 
-                  : 'text-gray-800 hover:text-purple-600'
-              }`}>
-                Stores
-              </span>
-            </Link>
-            <Link href="/customer/products" passHref>
-              <span className={`font-medium cursor-pointer ${
-                pathname === '/customer/products' 
-                  ? 'text-purple-600' 
-                  : 'text-gray-800 hover:text-purple-600'
-              }`}>
-                Products
-              </span>
-            </Link>
-            <span className="text-gray-400 font-medium cursor-not-allowed">SignIn</span>
-            <span className="text-gray-400 font-medium cursor-not-allowed">SignUp</span>
-            <span className="text-gray-400 font-medium cursor-not-allowed">My Cart</span>
-            <span className="text-gray-400 font-medium cursor-not-allowed">My Orders</span>
-          </div>
+          <div className="flex space-x-10">
+          <Link href="/customer/stores" passHref>
+            <span className={`text-xl font-medium cursor-pointer ${
+              pathname === '/customer/stores' 
+                ? 'text-purple-600' 
+                : 'text-gray-800 hover:text-purple-600'
+            }`}>
+              Stores
+            </span>
+          </Link>
+          <Link href="/customer/products" passHref>
+            <span className={`text-xl font-medium cursor-pointer ${
+              pathname === '/customer/products' 
+                ? 'text-purple-600' 
+                : 'text-gray-800 hover:text-purple-600'
+            }`}>
+              Products
+            </span>
+          </Link>
+          <Link href="/customer/signin" passHref>
+            <span className={`text-xl font-medium cursor-pointer ${
+              pathname === '/customer/signin' 
+                ? 'text-purple-600' 
+                : 'text-gray-800 hover:text-purple-600'
+            }`}>
+              SignIn
+            </span>
+          </Link>
+          <Link href="/customer/signup" passHref>
+            <span className={`text-xl font-medium cursor-pointer ${
+              pathname === '/customer/signup' 
+                ? 'text-purple-800' 
+                : 'text-gray-800 hover:text-purple-600'
+            }`}>
+              SignUp
+            </span>
+          </Link>
+          <Link href="/customer/mycart" passHref>
+            <span className={`text-xl font-medium cursor-pointer ${
+              pathname === '/customer/mycart' 
+                ? 'text-purple-600' 
+                : 'text-gray-800 hover:text-purple-600'
+            }`}>
+              My Cart
+            </span>
+          </Link>
+          <Link href="/customer/myorders" passHref>
+            <span className={`text-xl font-medium cursor-pointer ${
+              pathname === '/customer/myorders' 
+                ? 'text-purple-600' 
+                : 'text-gray-800 hover:text-purple-600'
+            }`}>
+              My Orders
+            </span>
+          </Link>
+        </div>
         )}
 
         {/* Mobile Menu Toggle - Only visible on mobile */}
@@ -127,61 +151,100 @@ const Navbar: React.FC<NavBarProps> = ({ isAuthorized = false }) => {
         )}
       </div>
 
-      {/* Mobile Dropdown Menu - Only renders on mobile when menu is open */}
-      {isMobile && isMenuOpen && (
+      {/* Mobile Dropdown Menu */}
+      {isMenuOpen && (
         <div 
           ref={menuRef}
-          className="absolute right-0 left-0 z-10 mt-0 bg-gray-300 max-w-xs mx-auto border border-gray-400 md:hidden"
+          className="fixed inset-0 z-50 bg-black bg-opacity-25 md:hidden"
         >
-          <div>
-            {/* Stores - Clickable */}
-            <Link href="/customer/stores" passHref>
-              <div 
-                className={`py-3 text-center ${pathname === '/customer/stores' 
-                  ? 'bg-gray-900 text-white' 
-                  : 'bg-gray-800 text-white hover:bg-gray-700'}`}
+          <div className="absolute right-0 top-0 h-full w-64 bg-white shadow-lg">
+            {/* Close button */}
+            <div className="flex justify-end p-4">
+              <button 
+                onClick={() => setIsMenuOpen(false)}
+                className="text-black"
+                aria-label="Close menu"
               >
-                Stores
-              </div>
-            </Link>
-
-            {/* Products - Clickable */}
-            <Link href="/customer/products" passHref>
-              <div 
-                className={`py-3 text-center ${pathname === '/customer/products' 
-                  ? 'bg-gray-900 text-white' 
-                  : 'bg-gray-800 text-white hover:bg-gray-700'}`}
-              >
-                Products
-              </div>
-            </Link>
-
-            {/* SignIn - Not Clickable for Unauthorized Users */}
-            <div 
-              className="py-3 text-center bg-gray-400 text-gray-100 cursor-not-allowed"
-            >
-              SignIn
+                <svg 
+                  xmlns="http://www.w3.org/2000/svg" 
+                  width="24" 
+                  height="24" 
+                  viewBox="0 0 24 24" 
+                  fill="none" 
+                  stroke="currentColor" 
+                  strokeWidth="2" 
+                  strokeLinecap="round" 
+                  strokeLinejoin="round"
+                >
+                  <line x1="18" y1="6" x2="6" y2="18"></line>
+                  <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+              </button>
             </div>
-
-            {/* SignUp - Not Clickable for Unauthorized Users */}
-            <div 
-              className="py-3 text-center bg-gray-400 text-gray-100 cursor-not-allowed"
-            >
-              SignUp
-            </div>
-
-            {/* My Cart - Not Clickable for Unauthorized Users */}
-            <div 
-              className="py-3 text-center bg-gray-400 text-gray-100 cursor-not-allowed"
-            >
-              My Cart
-            </div>
-
-            {/* My Orders - Not Clickable for Unauthorized Users */}
-            <div 
-              className="py-3 text-center bg-gray-400 text-gray-100 cursor-not-allowed"
-            >
-              My Orders
+            
+            {/* Menu items */}
+            <div className="py-2">
+              <Link href="/customer/stores" passHref>
+                <div 
+                  className={`px-6 py-3 text-lg ${
+                    pathname === '/customer/stores' 
+                      ? 'text-purple-700 font-medium bg-purple-50' 
+                      : 'text-gray-800 hover:bg-gray-100'
+                  }`}
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  Stores
+                </div>
+              </Link>
+              
+              <Link href="/customer/products" passHref>
+                <div 
+                  className={`px-6 py-3 text-lg ${
+                    pathname === '/customer/products' 
+                      ? 'text-purple-700 font-medium bg-purple-50' 
+                      : 'text-gray-800 hover:bg-gray-100'
+                  }`}
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  Products
+                </div>
+              </Link>
+              
+              <Link href="/customer/signin" passHref>
+                <div 
+                  className="px-6 py-3 text-lg text-gray-800 hover:bg-gray-100"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  SignIn
+                </div>
+              </Link>
+              
+              <Link href="/customer/signup" passHref>
+                <div 
+                  className="px-6 py-3 text-lg text-gray-800 hover:bg-gray-100"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  SignUp
+                </div>
+              </Link>
+              
+              <Link href="/customer/mycart" passHref>
+                <div 
+                  className="px-6 py-3 text-lg text-gray-800 hover:bg-gray-100"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  My Cart
+                </div>
+              </Link>
+              
+              <Link href="/customer/myorders" passHref>
+                <div 
+                  className="px-6 py-3 text-lg text-gray-800 hover:bg-gray-100"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  My Orders
+                </div>
+              </Link>
             </div>
           </div>
         </div>

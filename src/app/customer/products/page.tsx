@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
+import Image from 'next/image';
 import Navbar from '../components/navbar';
 
 // Define types for your product data
@@ -29,6 +30,7 @@ const mockProducts: Product[] = [
     storeId: 'store1',
     storeName: 'Coco Naturals',
     available: true,
+    
   },
   {
     id: '2',
@@ -244,14 +246,6 @@ export default function ProductListing() {
         {/* Search input with dropdown */}
         <div className="relative w-full max-w-md mb-6">
           <div className="relative">
-            <input
-              type="text"
-              placeholder="Search products..."
-              className="w-full p-2 pl-10 border border-gray-300 rounded"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              onFocus={() => setShowSearchResults(searchResults.length > 0)}
-            />
             <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
               <svg
                 className="w-5 h-5 text-gray-500"
@@ -268,6 +262,14 @@ export default function ProductListing() {
                 ></path>
               </svg>
             </div>
+            <input
+              type="text"
+              placeholder="Search products..."
+              className="w-full p-2 pl-10 border border-gray-300 rounded"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              onFocus={() => setShowSearchResults(searchResults.length > 0)}
+            />
           </div>
           
           {/* Search results dropdown */}
@@ -313,11 +315,22 @@ export default function ProductListing() {
               >
                 <div className="relative h-48 bg-gray-200">
                   {product.imageUrl ? (
-                    <img
-                      src={product.imageUrl}
-                      alt={product.name}
-                      className="w-full h-full object-cover"
-                    />
+                    <div className="relative w-full h-full">
+                      <Image
+                        src={product.imageUrl}
+                        alt={product.name}
+                        fill
+                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
+                        className="object-cover"
+                        priority={parseInt(product.id) <= 4} // Prioritize loading the first 4 images
+                        onError={(e) => {
+                          // Fallback if image fails to load
+                          const target = e.target as HTMLImageElement;
+                          target.onerror = null; // Prevent infinite loop
+                          target.src = "https://via.placeholder.com/300x300?text=Product+Image";
+                        }}
+                      />
+                    </div>
                   ) : (
                     <div className="w-full h-full flex items-center justify-center">
                       <svg
@@ -338,7 +351,7 @@ export default function ProductListing() {
                   )}
                   
                   {!product.available && (
-                    <div className="absolute top-2 right-2 bg-red-500 text-white px-2 py-1 rounded text-xs font-medium">
+                    <div className="absolute top-2 right-2 bg-red-500 text-white px-2 py-1 rounded text-xs font-medium z-10">
                       Out of Stock
                     </div>
                   )}
