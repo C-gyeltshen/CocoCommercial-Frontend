@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { ShoppingCart, X, Plus, Minus, ShoppingBag } from "lucide-react";
+import { Search, Heart, TruckIcon, Star } from "lucide-react";
 
 const ProductDetail = () => {
   const product = {
@@ -23,8 +24,6 @@ const ProductDetail = () => {
     { name: "Gray", value: "gray", image: null },
     { name: "Black", value: "black", image: null }
   ];
-
-  const sizeOptions = ["40.5", "41", "42", "43", "43.5", "44", "44.5", "45", "46"];
 
   const relatedProducts = [
     {
@@ -310,10 +309,6 @@ const updateQuantity = (itemId: string, newQuantity: number): void => {
                   </div>
                 )}
               </div>
-              <div className="flex flex-col items-center">
-                <Heart className="h-5 w-5" />
-                <span className="text-xs">Favorites</span>
-              </div>
               <div className="w-8 h-8 rounded-full bg-gray-300 overflow-hidden flex items-center justify-center">
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
                   <path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" />
@@ -414,16 +409,6 @@ const updateQuantity = (itemId: string, newQuantity: number): void => {
             </div>
 
             <h1 className="text-2xl font-bold mb-2">{product.name}</h1>
-            
-            {/* Ratings */}
-            <div className="flex items-center mb-4">
-              <div className="flex text-yellow-400 mr-2">
-                {[...Array(5)].map((_, i) => (
-                  <Star key={i} className="h-4 w-4" fill={i < product.rating ? "currentColor" : "none"} />
-                ))}
-              </div>
-              <span className="text-sm text-gray-500">{product.reviews} reviews</span>
-            </div>
 
             {/* Price */}
             <div className="text-3xl font-bold mb-6">Nu.{product.price.toFixed(2)}</div>
@@ -456,32 +441,6 @@ const updateQuantity = (itemId: string, newQuantity: number): void => {
               </div>
             </div>
             
-            {/* Size Selection */}
-            <div className="mb-6">
-              <div className="flex justify-between items-center mb-2">
-                <span className="text-sm font-medium">Size</span>
-                <span className="text-sm text-gray-500">EU Men</span>
-              </div>
-              <div className="grid grid-cols-5 gap-2">
-                {sizeOptions.map((size) => (
-                  <button
-                    key={size}
-                    className={`py-2 text-sm border rounded-md transition-colors ${
-                      selectedSize === size 
-                        ? 'bg-black text-white border-black' 
-                        : 'bg-white text-black border-gray-200 hover:border-gray-400'
-                    }`}
-                    onClick={() => setSelectedSize(size)}
-                  >
-                    {size}
-                  </button>
-                ))}
-              </div>
-              <div className="mt-2">
-                <a href="#" className="text-xs text-gray-500 hover:underline">Size guide</a>
-              </div>
-            </div>
-            
             {/* Quantity Selector - NEW */}
             <QuantitySelector />
             
@@ -493,11 +452,6 @@ const updateQuantity = (itemId: string, newQuantity: number): void => {
               >
                 <ShoppingCart className="h-5 w-5 mr-2" />
                 Add to cart
-              </Button>
-              <Button 
-                className="bg-gray-100 hover:bg-gray-200 p-3 rounded-md border border-gray-200"
-              >
-                <Heart className="h-5 w-5" />
               </Button>
             </div>
             
@@ -547,7 +501,5 @@ const updateQuantity = (itemId: string, newQuantity: number): void => {
     </div>
   );
 };
-
-import { Search, Heart, TruckIcon, Star } from "lucide-react";
 
 export default ProductDetail;
