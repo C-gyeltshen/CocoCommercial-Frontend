@@ -495,7 +495,7 @@ const updateQuantity = (itemId: string, newQuantity: number): void => {
       {/* Footer */}
       <footer className="bg-gray-100 py-6 mt-10">
         <div className="max-w-7xl mx-auto px-4 text-center">
-          <p className="text-gray-600 text-sm">© 2025 BR. All rights reserved.</p>
+          <p className="text-gray-600 text-sm">© 2025 SSO. All rights reserved.</p>
         </div>
       </footer>
     </div>
