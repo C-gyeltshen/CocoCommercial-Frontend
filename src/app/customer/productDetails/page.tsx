@@ -15,15 +15,8 @@ const ProductDetail = () => {
     rating: 4,
     reviews: 42,
     image: null,
-    thumbnails: [null, null, null, null],
     description: "The Reebok Zig Kinetica 3 delivers responsive cushioning and street-ready style. The innovative Zig Energy System combines three distinct technologies for cushioning, stability, and energy return."
   };
-
-  const colorOptions = [
-    { name: "White", value: "white", image: null },
-    { name: "Gray", value: "gray", image: null },
-    { name: "Black", value: "black", image: null }
-  ];
 
   const relatedProducts = [
     {
@@ -53,7 +46,7 @@ const ProductDetail = () => {
   ];
 
   // States
-  const [selectedColor, setSelectedColor] = useState("white");
+  // Removed color selection state
   const [selectedSize, setSelectedSize] = useState("41");
   const [cartOpen, setCartOpen] = useState(false);
   interface CartItem {
@@ -73,11 +66,11 @@ const ProductDetail = () => {
   // Function to add item to cart
   const addToCart = () => {
     const newItem = {
-      id: `${product.id}-${selectedColor}-${selectedSize}`,
+      id: `${product.id}-${selectedSize}`,
       productId: product.id,
       name: product.name,
       price: product.price,
-      color: selectedColor,
+      color: "default", // Add a default or selected color
       size: selectedSize,
       quantity: quantity,
       image: product.image
@@ -188,7 +181,7 @@ const updateQuantity = (itemId: string, newQuantity: number): void => {
                       </div>
                       
                       <div className="text-xs text-gray-500 mb-2">
-                        <span className="capitalize">{item.color}</span> | Size {item.size}
+                        Size {item.size}
                       </div>
                       
                       <div className="flex justify-between items-center">
@@ -333,7 +326,6 @@ const updateQuantity = (itemId: string, newQuantity: number): void => {
       {/* Shopping Cart Overlay */}
       <ShoppingCartComponent />
 
-      {/* Rest of the page content remains the same as in your original code */}
       {/* Breadcrumbs */}
       <div className="max-w-7xl mx-auto px-4 py-3">
         <div className="flex text-xs text-gray-500 space-x-2">
@@ -347,10 +339,10 @@ const updateQuantity = (itemId: string, newQuantity: number): void => {
 
       <main className="max-w-7xl mx-auto px-4 py-4">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          {/* Product Images Section */}
+          {/* Product Image Section - SIMPLIFIED */}
           <div>
             {/* Main Image */}
-            <div className="bg-gray-50 mb-2 rounded-lg flex items-center justify-center">
+            <div className="bg-gray-50 rounded-lg flex items-center justify-center">
               {product.image ? (
                 <img
                   src={product.image}
@@ -371,29 +363,6 @@ const updateQuantity = (itemId: string, newQuantity: number): void => {
                 </div>
               )}
             </div>
-            
-            {/* Thumbnails */}
-            <div className="flex space-x-2 overflow-x-auto pb-2">
-              {[0, 1, 2, 3].map((index) => (
-                <div 
-                  key={index} 
-                  className={`border rounded-md p-1 cursor-pointer ${index === 0 ? 'border-black' : 'border-gray-200'}`}
-                  style={{ width: "48px", height: "48px" }}
-                >
-                  <div className="w-full h-full bg-gray-100 flex items-center justify-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                    </svg>
-                  </div>
-                </div>
-              ))}
-              <div 
-                className="border rounded-md p-1 border-gray-200 flex items-center justify-center" 
-                style={{ width: "48px", height: "48px" }}
-              >
-                <span className="text-xs text-gray-500">+4</span>
-              </div>
-            </div>
           </div>
 
           {/* Product Details Section */}
@@ -409,39 +378,16 @@ const updateQuantity = (itemId: string, newQuantity: number): void => {
             </div>
 
             <h1 className="text-2xl font-bold mb-2">{product.name}</h1>
+            
+            {/* Product Description - ADDED */}
+            <p className="text-gray-600 mb-6">{product.description}</p>
 
             {/* Price */}
             <div className="text-3xl font-bold mb-6">Nu.{product.price.toFixed(2)}</div>
             
-            {/* Color Selection */}
-            <div className="mb-6">
-              <div className="flex justify-between items-center mb-2">
-                <span className="text-sm font-medium">Color</span>
-                <span className="text-sm text-gray-500">{colorOptions.find(c => c.value === selectedColor)?.name || 'White'}</span>
-              </div>
-              <div className="flex space-x-2">
-                {colorOptions.map((color) => (
-                  <button
-                    key={color.value}
-                    className={`w-10 h-10 rounded-md ${selectedColor === color.value ? 'border-2 border-black' : 'border border-gray-200'}`}
-                    onClick={() => setSelectedColor(color.value)}
-                    style={{ 
-                      backgroundColor: color.value === 'white' ? '#FFFFFF' : 
-                                      color.value === 'gray' ? '#CCCCCC' : 
-                                      color.value === 'black' ? '#000000' : '#FFFFFF'
-                    }}
-                  >
-                    {color.value === selectedColor && color.value === 'white' && (
-                      <div className="w-full h-full flex items-center justify-center">
-                        <div className="w-2 h-2 bg-black rounded-full"></div>
-                      </div>
-                    )}
-                  </button>
-                ))}
-              </div>
-            </div>
+            {/* Color Selection removed */}
             
-            {/* Quantity Selector - NEW */}
+            {/* Quantity Selector */}
             <QuantitySelector />
             
             {/* Add to Cart Button */}
