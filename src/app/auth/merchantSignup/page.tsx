@@ -8,6 +8,7 @@ import "slick-carousel/slick/slick-theme.css";
 import Image from "next/image";
 import Navbar from "@/layout/admin/navbar/navbar";
 import Footer from "@/layout/admin/footer/footer";
+import { useRouter } from 'next/navigation'
 
 interface FormData {
   name: string;
@@ -37,6 +38,9 @@ interface StoreData {
 }
 
 const SignupPage: React.FC = () => {
+
+  const router = useRouter()
+
   const [dzongkhags, setDzongkhags] = useState<Dzongkhag[]>([]);
   const [gewogs, setGewogs] = useState<Gewog[]>([]);
   const [loading, setLoading] = useState(true);
@@ -229,7 +233,7 @@ const SignupPage: React.FC = () => {
             "Content-Type": "application/json",
         },
       });
-      
+      router.push('/')
       const result = await response.json();
       // console.log(response)
       
@@ -278,7 +282,7 @@ const SignupPage: React.FC = () => {
       <div className="bg-[#f2fafc] py-6">
         <div className="container mx-auto grid grid-cols-1 lg:grid-cols-2 gap-6 items-start px-4">
           <div>
-            <h2 className="text-4xl font-bold text-[#0A1C2E] mb-4">Shop & Sell with Gakyid Market</h2>
+            <h2 className="text-4xl font-bold text-[#0A1C2E] mb-4">Shop & Sell with SSO</h2>
             <p className="text-lg text-black mb-6">Your digital journey starts here.</p>
             <Slider {...sliderSettings}>
               <div className="flex justify-center">
@@ -302,7 +306,7 @@ const SignupPage: React.FC = () => {
             </Slider>
             {/* Add features or benefits */}
             <div className="mt-8">
-              <h3 className="text-xl font-semibold mb-4">Why join Gakyid Market?</h3>
+              <h3 className="text-xl font-semibold mb-4">Why join SSO?</h3>
               <ul className="space-y-2">
                 <li className="flex items-start">
                   <span className="text-orange-500 mr-2">✓</span>
