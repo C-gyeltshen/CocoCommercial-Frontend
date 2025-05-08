@@ -10,7 +10,7 @@ const Footer: React.FC = () => {
         {/* About Section */}
         <div className="text-left">
           <img
-            src="/cocologo.png"
+            src="/logo.png"
             alt="Logo"
             className="w-20 mb-3"
           />
