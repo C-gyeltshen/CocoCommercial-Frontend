@@ -194,13 +194,8 @@ const SignupPage: React.FC = () => {
     formDataToSend.append("dzongkhag", formData.dzongkhag);
     formDataToSend.append("gewog", formData.gewog);
 
-    // Convert FormData to a plain object
-    const formDataObject: { [key: string]: string } = {};  
-    formDataToSend.forEach((value, key) => {
-        formDataObject[key] = value as string;  // Type casting to string (if necessary)
-    });
-    const jsonData = JSON.stringify(formDataObject);
-    console.log("Converted JSON: ", jsonData);
+
+    
     
     // Get store data from sessionStorage if available
     try {
@@ -213,13 +208,19 @@ const SignupPage: React.FC = () => {
         if (storeData.storeDzongkhag) formDataToSend.append("storeDzongkhag", storeData.storeDzongkhag);
         if (storeData.storeGewog) formDataToSend.append("storeGewog", storeData.storeGewog);
       }
-      for (const [key, value] of formDataToSend.entries()) {
-        console.log(`${key}: ${value}`);
-        }
-        console.log("data type of formDataToSend is ",typeof(formDataToSend))
+      // for (const [key, value] of formDataToSend.entries()) {
+      //   console.log(`${key}: ${value}`);
+      //   }
+        // console.log("data type of formDataToSend is ",typeof(formDataToSend))
 
-        const requestData = JSON.stringify(formDataToSend);
-        console.log("request data : ", requestData)
+            // Convert FormData to a plain object
+      const formDataObject: { [key: string]: string } = {};  
+      formDataToSend.forEach((value, key) => {
+          formDataObject[key] = value as string;  // Type casting to string (if necessary)
+      });
+
+      const jsonData = JSON.stringify(formDataObject);
+      console.log("Converted JSON: ", jsonData);
       
       const response = await fetch("http://localhost:8080/auth/merchant/signup", {
         method: "POST",
@@ -230,7 +231,7 @@ const SignupPage: React.FC = () => {
       });
       
       const result = await response.json();
-      console.log(response)
+      // console.log(response)
       
       if (!response.ok) {
         throw new Error(result.message || "Signup failed. Please try again.");
