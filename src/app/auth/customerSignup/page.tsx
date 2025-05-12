@@ -140,7 +140,7 @@ const SignupPage: React.FC = () => {
             <div className="bg-[#f2fafc] py-6">
                 <div className="container mx-auto grid grid-cols-1 lg:grid-cols-2 gap-6 items-start">
                     <div>
-                        <h2 className="text-4xl font-bold text-[#0A1C2E] mb-4">Shop & Sell with Gakyid Market</h2>
+                        <h2 className="text-4xl font-bold text-[#0A1C2E] mb-4">Shop & Sell with SSO</h2>
                         <p className="text-lg text-black mb-6">Your digital journey starts here.</p>
                         <Slider {...sliderSettings}>
                             <div className="flex justify-center">

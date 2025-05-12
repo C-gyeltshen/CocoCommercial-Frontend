@@ -72,7 +72,7 @@ const Navbar: React.FC<NavBarProps> = ({ isAuthorized = false }) => {
         {/* Desktop Navigation */}
         {!isMobile && (
           <div className="flex space-x-10">
-          <Link href="/customer/stores" passHref>
+          <Link href="/customer/storelisting" passHref>
             <span className={`text-xl font-medium cursor-pointer ${
               pathname === '/customer/stores' 
                 ? 'text-purple-600' 
@@ -90,7 +90,7 @@ const Navbar: React.FC<NavBarProps> = ({ isAuthorized = false }) => {
               Products
             </span>
           </Link>
-          <Link href="/customer/signin" passHref>
+          <Link href="/auth/loginAsCustomer" passHref>
             <span className={`text-xl font-medium cursor-pointer ${
               pathname === '/customer/signin' 
                 ? 'text-purple-600' 
@@ -99,7 +99,7 @@ const Navbar: React.FC<NavBarProps> = ({ isAuthorized = false }) => {
               SignIn
             </span>
           </Link>
-          <Link href="/customer/signup" passHref>
+          <Link href="/auth/customerSignup" passHref>
             <span className={`text-xl font-medium cursor-pointer ${
               pathname === '/customer/signup' 
                 ? 'text-purple-800' 

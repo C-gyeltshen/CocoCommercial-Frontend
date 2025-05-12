@@ -8,12 +8,12 @@ import Header from "@/layout/merchant/header/header";
 
 const Store: React.FC = () => {
   const storeDetails = {
-    name: "My Awesome Store",
-    description: "Your one-stop shop for quality products.",
+    name: "BB Store Thimphu",
+    description: "Your one-stop shop for basketball lover",
     address: "Norzin Lam, Thimphu, Bhutan",
     contact: "+975 17123456",
     email: "contact@myawesomestore.com",
-    bannerImage: "/api/placeholder/1200/400", // Default placeholder image
+    bannerImage: "/products/store.webp", // Default placeholder image
   };
 
   const products = [
@@ -22,28 +22,28 @@ const Store: React.FC = () => {
       name: "Product 1",
       price: 4000,
       description: "Sample product description 1",
-      image: "/api/placeholder/100/100",
+      image: "/products/1.avif",
     },
     {
       id: 2,
       name: "Product 2",
       price: 4000,
       description: "Sample product description 2",
-      image: "/api/placeholder/100/100",
+      image: "/products/2.avif",
     },
     {
       id: 3,
       name: "Product 3",
       price: 4000,
       description: "Sample product description 3",
-      image: "/api/placeholder/100/100",
+      image: "/products/3.avif",
     },
     {
       id: 4,
       name: "Product 4",
       price: 4000,
       description: "Sample product description 4",
-      image: "/api/placeholder/100/100",
+      image: "/products/4.avif",
     },
   ];
 

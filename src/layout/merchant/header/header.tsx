@@ -26,7 +26,7 @@ const Header: React.FC = () => {
         <div className="flex items-center justify-between h-16">
           {/* Logo Section */}
           <div className="flex items-center">
-            <Link href="/merchant/dashboard">
+            <Link href="/merchant/productListing">
               <Image
                 src="/cocologo.png"
                 alt="Coco Commercial Logo"

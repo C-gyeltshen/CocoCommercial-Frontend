@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import Image from 'next/image';
 import { Search, ShoppingBag, Calendar, Settings, ChevronRight, ChevronLeft, Laptop, Code, Layout } from 'lucide-react';
+import Navbar from '../components/navbar';
 
 // Homepage component for Coco Commercial - E-commerce website builder
 export default function HomePage() {
@@ -57,21 +58,21 @@ export default function HomePage() {
       name: 'Beauty Products',
       category: 'Cosmetics',
       price: 'Free',
-      image: '/images/templates/beauty-products.jpg',
+      image: "/products/beauty.avif",
     },
     {
       id: 8,
       name: 'Pet Supplies',
       category: 'Animals',
       price: 'Free',
-      image: '/images/templates/pet-supplies.jpg',
+      image: "/products/pet.jpg",
     },
     {
       id: 9,
       name: 'Art Gallery',
       category: 'Creative',
       price: 'Premium',
-      image: '/images/templates/art-gallery.jpg',
+      image: "/products/vast.png",
     },
   ];
 
@@ -90,6 +91,7 @@ export default function HomePage() {
 
   return (
     <div className="min-h-screen bg-gray-50">
+      <Navbar isAuthorized={false} />
       {/* Hero Section */}
       <section className="relative bg-blue-50 pt-12 pb-24">
         <div className="container mx-auto px-4">

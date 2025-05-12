@@ -48,7 +48,7 @@ const LoginPage = () => {
                 Welcome Back
                 </h1>
                 <p className="text-gray-600">
-                Log in to your Coco Commercial account <br /> as Customer
+                Log in to your SSO account <br /> as Customer
                 </p>
             </div>
 

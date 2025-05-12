@@ -233,7 +233,7 @@ const SignupPage: React.FC = () => {
             "Content-Type": "application/json",
         },
       });
-      router.push('/')
+      router.push('/merchant/productListing')
       const result = await response.json();
       // console.log(response)
       

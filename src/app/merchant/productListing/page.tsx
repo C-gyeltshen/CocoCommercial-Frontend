@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import Header from "@/layout/merchant/header/header";
+import img1 from './image/1.avif';
 
 const AddNewProduct: React.FC<{ onClose: () => void; onAdd: (product: any) => void }> = ({ onClose, onAdd }) => {
   const [formData, setFormData] = useState({
@@ -143,7 +144,7 @@ const ProductListing: React.FC = () => {
       price: 4000,
       description: "Sample product description 1",
       quantity: 431,
-      image: "/api/placeholder/50/50",
+      image: "/products/1.avif",
     },
     {
       id: 2,
@@ -151,7 +152,7 @@ const ProductListing: React.FC = () => {
       price: 4000,
       description: "Sample product description 2",
       quantity: 213,
-      image: "/api/placeholder/50/50",
+      image: "/products/2.avif",
     },
     {
       id: 3,
@@ -159,7 +160,7 @@ const ProductListing: React.FC = () => {
       price: 4000,
       description: "Sample product description 3",
       quantity: 12,
-      image: "/api/placeholder/50/50",
+      image: "/products/3.avif",
     },
     {
       id: 4,
@@ -167,7 +168,7 @@ const ProductListing: React.FC = () => {
       price: 4000,
       description: "Sample product description 4",
       quantity: 43,
-      image: "/api/placeholder/50/50",
+      image: "/products/4.avif",
     },
     {
       id: 5,
@@ -175,7 +176,7 @@ const ProductListing: React.FC = () => {
       price: 4000,
       description: "Sample product description 4",
       quantity: 43,
-      image: "/api/placeholder/50/50",
+      image: "/products/5.avif",
     },
   ]);
 
