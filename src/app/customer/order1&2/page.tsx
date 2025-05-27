@@ -2,12 +2,15 @@
 
 import React, { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
+import { useRouter } from 'next/navigation'
+ 
 
 const CheckoutForm = () => {
   const [step, setStep] = useState(1);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [receiveOffers, setReceiveOffers] = useState(false);
+  const router = useRouter()
 
   useEffect(() => {
     // Client-side initialization if needed
@@ -75,7 +78,7 @@ const CheckoutForm = () => {
               </Button>
               <Button
                 className="w-1/2 bg-black text-white py-3 rounded-lg font-medium hover:bg-gray-800 transition-colors duration-200"
-                onClick={() => alert(`Order placed for ${name} at ${email}`)}
+                onClick={() => router.push('/customer/order3')}
                 disabled={!email}
               >
                 Submit
