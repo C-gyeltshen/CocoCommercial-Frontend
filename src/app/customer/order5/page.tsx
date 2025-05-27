@@ -216,6 +216,7 @@ const GiftQuestionPage = () => {
                   
                   <button
                     type="submit"
+                    onClick={() => router.push('/customer/orderFinal')}
                     className="bg-black text-white font-medium text-sm py-1 px-4 rounded"
                   >
                     Continue

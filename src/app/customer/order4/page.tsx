@@ -10,13 +10,7 @@ const OrderPreferencePage = () => {
   const router = useRouter();
   const [selectedOption, setSelectedOption] = useState<string>("");
 
-  const handleNext = () => {
-    if (selectedOption) {
-      console.log("Selected option:", selectedOption);
-      // Navigate to next page or handle the selection
-      // router.push('/next-page'); // Uncomment when you have the next page
-    }
-  };
+  
 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col justify-between p-6">
@@ -91,7 +85,7 @@ const OrderPreferencePage = () => {
       {/* Next Button */}
       <div className="flex justify-end">
         <Button
-          onClick={handleNext}
+          onClick={() => router.push('/customer/order5')}
           disabled={!selectedOption}
           className="bg-black hover:bg-gray-800 text-white rounded-full px-8 py-3 disabled:bg-gray-400 disabled:cursor-not-allowed"
         >
