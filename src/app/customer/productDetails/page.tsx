@@ -233,7 +233,7 @@ const updateQuantity = (itemId: string, newQuantity: number): void => {
               <Button 
                 className="w-full bg-black hover:bg-gray-800 text-white font-medium py-3 rounded-md"
                 type="button"
-                onClick={() => router.push('/customer/checkout')}
+                onClick={() => router.push('/customer/order1&2')}
               >
                 Checkout
               </Button>
