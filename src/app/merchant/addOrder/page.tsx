@@ -4,14 +4,20 @@ import React, { useState, useRef, useEffect } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Calendar } from "@/components/ui/calendar";
-import CustomerNavbar from "@/layout/merchant/navbar/navbar";
-
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import { Alert, AlertTitle, AlertDescription } from "@/components/ui/alert";
 import { format } from "date-fns";
 import { 
   Calendar as CalendarIcon, 
@@ -24,8 +30,6 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useRouter } from "next/navigation";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@radix-ui/react-select";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
 interface FormSection {
   customer: boolean;
@@ -274,7 +278,6 @@ const AddOrderManually = () => {
 
   return (
     <div className="min-h-screen bg-gray-50">
-        <CustomerNavbar />
       {/* Success Notification */}
       <div className={`fixed top-4 right-4 z-50 transition-all duration-300 ${
         showSuccess ? 'translate-x-0' : 'translate-x-full'

@@ -22,7 +22,7 @@ export default function Home() {
             {/* Updated Logo Section to match previous styling */}
             <div className="flex justify-center mb-8 transform hover:scale-105 transition-transform duration-300">
               <Image
-                src="/cocologo.png"
+                src="/logo.png"
                 alt="Coco Commercial Logo"
                 width={120}
                 height={120}

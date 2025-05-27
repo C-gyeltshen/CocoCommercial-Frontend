@@ -42,21 +42,21 @@ const OrdersManagement = () => {
       address: "Building 4, Norzin Lam, Thimphu, 11001",
       items: [
         {
-          image: "/api/placeholder/50/50",
+          image: "/products/1.avif",
           name: "Product 1",
           price: 4000,
           quantity: 3,
           total: 12000,
         },
         {
-          image: "/api/placeholder/50/50",
+          image: "/products/2.avif",
           name: "Product 2",
           price: 2500,
           quantity: 2,
           total: 5000,
         },
         {
-          image: "/api/placeholder/50/50",
+          image: "/products/3.avif",
           name: "Product 3",
           price: 3000,
           quantity: 1,
@@ -77,14 +77,14 @@ const OrdersManagement = () => {
       address: "Near Paro Airport, Paro, 12001",
       items: [
         {
-          image: "/api/placeholder/50/50",
+          image: "/products/11.jpg",
           name: "Product 4",
           price: 5000,
           quantity: 2,
           total: 10000,
         },
         {
-          image: "/api/placeholder/50/50",
+          image: "/products/12.jpg",
           name: "Product 5",
           price: 1500,
           quantity: 3,
