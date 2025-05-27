@@ -5,8 +5,11 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { ShoppingCart, X, Plus, Minus, ShoppingBag } from "lucide-react";
 import { Search, Heart, TruckIcon, Star } from "lucide-react";
+import { useRouter } from 'next/navigation'
 
 const ProductDetail = () => {
+  const router = useRouter()
+ 
   const product = {
     id: "HR1325ROC-8",
     name: "Shoes Reebok Zig Kinetica 3",
@@ -229,6 +232,8 @@ const updateQuantity = (itemId: string, newQuantity: number): void => {
               
               <Button 
                 className="w-full bg-black hover:bg-gray-800 text-white font-medium py-3 rounded-md"
+                type="button"
+                onClick={() => router.push('/customer/checkout')}
               >
                 Checkout
               </Button>
